@@ -1,0 +1,79 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seobastian — Panel · lazar</title>
+<style>
+:root{--gold:#B8860B;--green:#1A4D2E;}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.5 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+color:#1d1d1f;background:#f5f5f7}
+.wrap{max-width:980px;margin:0 auto;padding:28px 20px 60px}
+header{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+h1{font-size:24px;margin:0} h1 span{color:var(--gold)}
+.meta{color:#6b6b6b;font-size:13px}
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0}
+@media(max-width:760px){.kpis{grid-template-columns:repeat(3,1fr)}}
+.kpi{background:#fff;border:1px solid #e6e6e6;border-radius:14px;padding:14px;text-align:center}
+.kpi .num{font-size:30px;font-weight:700;line-height:1}
+.kpi .lbl{font-size:13px;color:#1d1d1f;margin-top:4px}
+.kpi .sub{font-size:11px;color:#9a9a9a}
+section{background:#fff;border:1px solid #e6e6e6;border-radius:14px;padding:18px 20px;margin:16px 0}
+h2{font-size:16px;margin:0 0 12px}
+.bar{display:flex;height:14px;border-radius:7px;overflow:hidden;background:#f0f0f0}
+.bar .seg{height:100%}
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px 6px;border-bottom:1px solid #efefef;text-align:left;vertical-align:middle}
+th{font-size:12px;color:#6b6b6b;text-transform:uppercase;letter-spacing:.03em}
+td.r,th.r{text-align:right}
+.muted{color:#9a9a9a} .small{font-size:12px}
+.list{list-style:none;padding:0;margin:0}
+.list li{padding:8px 0;border-bottom:1px solid #f0f0f0}
+.list a{color:#1565c0;text-decoration:none} .list a:hover{text-decoration:underline}
+.tag{font-size:11px;background:#f0f0f0;color:#555;border-radius:6px;padding:2px 7px;margin-left:6px}
+.tag.ok{background:#e7f4ea;color:#1A4D2E}
+.legend{font-size:12px;color:#6b6b6b;margin-top:8px}
+.legend b{font-weight:600}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin:0 3px 0 10px;vertical-align:middle}
+footer{color:#9a9a9a;font-size:12px;text-align:center;margin-top:26px}
+</style></head><body><div class="wrap">
+<header>
+  <h1>Seo<span>bastian</span> · panel</h1>
+  <div class="meta">lazar — https://lazar.golf · 07 Jun 2026</div>
+</header>
+
+<div class="kpis"><div class="kpi"><div class="num" style="color:#6b6b6b">238</div><div class="lbl">Detectadas</div></div><div class="kpi"><div class="num" style="color:#B8860B">195</div><div class="lbl">Pendientes</div><div class="sub">sin accionar</div></div><div class="kpi"><div class="num" style="color:#1565c0">5</div><div class="lbl">En PR</div><div class="sub">esperan tu OK</div></div><div class="kpi"><div class="num" style="color:#1A4D2E">7</div><div class="lbl">Hechas</div><div class="sub">en producción</div></div><div class="kpi"><div class="num" style="color:#1A4D2E">0</div><div class="lbl">Medidas</div><div class="sub">atribución</div></div><div class="kpi"><div class="num" style="color:#6b6b6b">7</div><div class="lbl">Descartadas</div><div class="sub">stale/dup</div></div></div>
+
+<section>
+  <h2>Pipeline</h2>
+  <div class="bar"><div class="seg" style="width:81.9%;background:#B8860B" title="Pendiente: 195"></div><div class="seg" style="width:12.2%;background:#1565c0" title="En PR: 29"></div><div class="seg" style="width:2.9%;background:#1A4D2E" title="Hecho: 7"></div><div class="seg" style="width:2.9%;background:#cfcfcf" title="Descartado: 7"></div></div>
+  <div class="legend">
+    <span class="dot" style="background:#B8860B"></span><b>Pendiente</b>
+    <span class="dot" style="background:#1565c0"></span><b>En PR</b>
+    <span class="dot" style="background:#1A4D2E"></span><b>Hecho</b>
+    <span class="dot" style="background:#cfcfcf"></span><b>Descartado</b>
+  </div>
+</section>
+
+<section>
+  <h2>Backlog por tipo</h2>
+  <table><thead><tr><th>Tipo</th><th>Distribución</th><th class="r">Pend.</th>
+  <th class="r">En PR</th><th class="r">Hecho</th><th class="r">Desc.</th><th class="r">Total</th></tr></thead>
+  <tbody><tr><td><b>meta</b></td><td><div class="bar"><div class="seg" style="width:86.8%;background:#B8860B" title="new: 164"></div><div class="seg" style="width:13.2%;background:#1565c0" title="in_pr: 25"></div></div></td><td class='r'>164</td><td class='r'>25</td><td class='r'>0</td><td class='r muted'>0</td><td class='r'><b>189</b></td></tr><tr><td><b>striking_distance</b></td><td><div class="bar"><div class="seg" style="width:70.4%;background:#B8860B" title="new: 19"></div><div class="seg" style="width:7.4%;background:#1565c0" title="in_pr: 2"></div><div class="seg" style="width:18.5%;background:#1A4D2E" title="done: 5"></div><div class="seg" style="width:3.7%;background:#cfcfcf" title="dismissed: 1"></div></div></td><td class='r'>19</td><td class='r'>2</td><td class='r'>5</td><td class='r muted'>1</td><td class='r'><b>27</b></td></tr><tr><td><b>content_gap</b></td><td><div class="bar"><div class="seg" style="width:83.3%;background:#B8860B" title="new: 10"></div><div class="seg" style="width:8.3%;background:#1565c0" title="in_pr: 1"></div><div class="seg" style="width:8.3%;background:#cfcfcf" title="dismissed: 1"></div></div></td><td class='r'>10</td><td class='r'>1</td><td class='r'>0</td><td class='r muted'>1</td><td class='r'><b>12</b></td></tr><tr><td><b>interlinking</b></td><td><div class="bar"><div class="seg" style="width:20.0%;background:#B8860B" title="new: 2"></div><div class="seg" style="width:10.0%;background:#1565c0" title="in_pr: 1"></div><div class="seg" style="width:20.0%;background:#1A4D2E" title="done: 2"></div><div class="seg" style="width:50.0%;background:#cfcfcf" title="dismissed: 5"></div></div></td><td class='r'>2</td><td class='r'>1</td><td class='r'>2</td><td class='r muted'>5</td><td class='r'><b>10</b></td></tr></tbody></table>
+</section>
+
+<section>
+  <h2>🔧 Pendiente de tu aprobación (5)</h2>
+  <ul class='list'><li><a href="https://github.com/okuspocus/lazar/pull/31" target="_blank">Expand 'como bajar handicap' page into a structured, evidence-based guide to match high-vo</a> <span class="tag">content_gap</span></li><li><a href="https://github.com/okuspocus/lazar/pull/28" target="_blank">Striking distance: pos 19.5, 57 impr — https://lazar.golf/es/blog/formatos-de-golf-explica</a> <span class="tag">striking_distance</span></li><li><a href="https://github.com/okuspocus/lazar/pull/29" target="_blank">Striking distance: pos 13.0, 24 impr — https://lazar.golf/en/handicap/handicap-up-down</a> <span class="tag">striking_distance</span></li><li><a href="https://github.com/okuspocus/lazar/pull/27" target="_blank">Meta fixes — lote de 25 páginas</a> <span class="tag">meta</span></li><li><a href="https://github.com/okuspocus/lazar/pull/30" target="_blank">Orphan (0 inlinks) — https://lazar.golf/es/blog/como-rellenar-tarjeta-puntuacion-golf</a> <span class="tag">interlinking</span></li></ul>
+</section>
+
+<section>
+  <h2>✅ Hecho recientemente</h2>
+  <ul class='list'><li>Striking distance: pos 16.6, 31 impr — https://lazar.golf/en/blog/how-to-read-a-golf-score <span class="tag ok">striking_distance</span> <a href="https://github.com/okuspocus/lazar/pull/25" target="_blank">PR</a></li><li>Striking distance: pos 13.1, 72 impr — https://lazar.golf/es/blog/terminos-puntuacion-golf <span class="tag ok">striking_distance</span> <a href="https://github.com/okuspocus/lazar/pull/24" target="_blank">PR</a></li><li>Under-linked (1 inlinks) — https://lazar.golf/es/blog/mejor-app-golf-reglas <span class="tag ok">interlinking</span> <a href="https://github.com/okuspocus/lazar/pull/17" target="_blank">PR</a></li><li>Striking distance: pos 7.7, 33 impr — https://lazar.golf/es/blog/como-leer-una-tarjeta-de- <span class="tag ok">striking_distance</span> <a href="https://github.com/okuspocus/lazar/pull/7" target="_blank">PR</a></li><li>Striking distance: pos 11.5, 113 impr — https://lazar.golf/es/formatos/stroke-play-medal <span class="tag ok">striking_distance</span> <a href="https://github.com/okuspocus/lazar/pull/4" target="_blank">PR</a></li><li>Orphan (0 inlinks) — https://lazar.golf/en/blog/how-to-fill-in-golf-scorecard <span class="tag ok">interlinking</span> <a href="https://github.com/okuspocus/lazar/pull/3" target="_blank">PR</a></li><li>Striking distance: pos 9.5, 48 impr — https://lazar.golf/es/handicap/handicap-maximo <span class="tag ok">striking_distance</span> <a href="https://github.com/okuspocus/lazar/pull/2" target="_blank">PR</a></li></ul>
+</section>
+
+<section>
+  <h2>📈 Atribución (impacto medido)</h2>
+  <p class="muted">Todavía sin mediciones. La atribución necesita ~4 semanas tras los primeros cambios aprobados.</p>
+</section>
+
+<footer>Generado por Seobastian · 2026-06-07 14:29 · datos de data/backlog.sqlite</footer>
+</div></body></html>
