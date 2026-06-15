@@ -2,28 +2,47 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Seobastian — Panel · lazar</title>
 <style>
-:root{--gold:#B8860B;--green:#1A4D2E;}
+:root{--gold:#B8860B;--green:#1A4D2E;--red:#b3261e;--blue:#1565c0}
 *{box-sizing:border-box}
-body{margin:0;font:15px/1.5 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-color:#1d1d1f;background:#f5f5f7}
+body{margin:0;font:15px/1.5 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#1d1d1f;background:#f5f5f7}
 .wrap{max-width:980px;margin:0 auto;padding:28px 20px 60px}
-header{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+header{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:14px}
 h1{font-size:24px;margin:0} h1 span{color:var(--gold)}
 .meta{color:#6b6b6b;font-size:13px}
-.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px 0}
+
+/* Trigger bar */
+.trigger-bar{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid #e6e6e6;
+  border-radius:14px;padding:14px 18px;margin-bottom:20px;flex-wrap:wrap}
+#run-btn{background:var(--green);color:#fff;border:none;border-radius:9px;padding:10px 22px;
+  font-size:14px;font-weight:600;cursor:pointer;transition:opacity .15s}
+#run-btn:hover{opacity:.85} #run-btn:disabled{opacity:.5;cursor:default}
+.run-info{display:flex;align-items:center;gap:14px;flex:1;min-width:200px}
+.forget-btn{background:none;border:1px solid #d0d0d0;border-radius:7px;padding:4px 10px;
+  font-size:12px;color:#6b6b6b;cursor:pointer} .forget-btn:hover{background:#f0f0f0}
+
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:0 0 20px}
 @media(max-width:760px){.kpis{grid-template-columns:repeat(3,1fr)}}
 .kpi{background:#fff;border:1px solid #e6e6e6;border-radius:14px;padding:14px;text-align:center}
 .kpi .num{font-size:30px;font-weight:700;line-height:1}
 .kpi .lbl{font-size:13px;color:#1d1d1f;margin-top:4px}
 .kpi .sub{font-size:11px;color:#9a9a9a}
-section{background:#fff;border:1px solid #e6e6e6;border-radius:14px;padding:18px 20px;margin:16px 0}
+
+/* Sections */
+section{background:#fff;border:1px solid #e6e6e6;border-radius:14px;padding:18px 20px;margin:14px 0}
+section.problems{border-color:#f5c2c7;background:#fffafa}
 h2{font-size:16px;margin:0 0 12px}
+h3.subsect{font-size:13px;font-weight:600;margin:16px 0 8px;color:#444}
+
+/* Tables */
 .bar{display:flex;height:14px;border-radius:7px;overflow:hidden;background:#f0f0f0}
 .bar .seg{height:100%}
 table{width:100%;border-collapse:collapse}
 th,td{padding:8px 6px;border-bottom:1px solid #efefef;text-align:left;vertical-align:middle}
 th{font-size:12px;color:#6b6b6b;text-transform:uppercase;letter-spacing:.03em}
 td.r,th.r{text-align:right}
+
+/* Misc */
 .muted{color:#9a9a9a} .small{font-size:12px}
 .list{list-style:none;padding:0;margin:0}
 .list li{padding:8px 0;border-bottom:1px solid #f0f0f0}
@@ -35,53 +54,142 @@ td.r,th.r{text-align:right}
 .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin:0 3px 0 10px;vertical-align:middle}
 footer{color:#9a9a9a;font-size:12px;text-align:center;margin-top:26px}
 </style></head><body><div class="wrap">
+
 <header>
   <h1>Seo<span>bastian</span> · panel</h1>
-  <div class="meta">lazar — https://lazar.golf · 14 Jun 2026</div>
+  <div class="meta">lazar — https://lazar.golf · 15 Jun 2026</div>
 </header>
 
-<div class="kpis"><div class="kpi"><div class="num" style="color:#6b6b6b">321</div><div class="lbl">Detectadas</div></div><div class="kpi"><div class="num" style="color:#B8860B">99</div><div class="lbl">Pendientes</div><div class="sub">sin accionar</div></div><div class="kpi"><div class="num" style="color:#1565c0">1</div><div class="lbl">En PR</div><div class="sub">esperan tu OK</div></div><div class="kpi"><div class="num" style="color:#1A4D2E">204</div><div class="lbl">Hechas</div><div class="sub">en producción</div></div><div class="kpi"><div class="num" style="color:#1A4D2E">0</div><div class="lbl">Medidas</div><div class="sub">atribución</div></div><div class="kpi"><div class="num" style="color:#6b6b6b">15</div><div class="lbl">Descartadas</div><div class="sub">stale/dup</div></div></div>
+<div class="trigger-bar">
+  <button id="run-btn" onclick="runSeobastian()">&#9654; Ejecutar Seobastian</button>
+  <div class="run-info">
+    <div id="run-status" class="muted small">Cargando estado&hellip;</div>
+    <button class="forget-btn" onclick="forgetToken()">🔑 olvidar token</button>
+  </div>
+</div>
 
-<section><h2>🔎 Estado para Google — <span style="color:#1A4D2E">Listo para Google</span></h2><div><span class="tag">robots.txt OK</span> <span class="tag">sitemap 377 URLs</span> <span class="tag">indexadas 0/0 (muestra)</span></div><p class="muted small" style="margin-top:8px">Sin incidencias. 🎉</p><p class="muted small" style="margin-top:8px">Comprobado: 2026-06-12 11:02</p></section>
+<div class="kpis"><div class="kpi"><div class="num" style="color:#6b6b6b">335</div><div class="lbl">Encontradas</div></div><div class="kpi"><div class="num" style="color:#B8860B">87</div><div class="lbl">Pendientes</div><div class="sub">por hacer</div></div><div class="kpi"><div class="num" style="color:#1565c0">8</div><div class="lbl">En PR</div><div class="sub">esperan tu OK</div></div><div class="kpi"><div class="num" style="color:#1A4D2E">208</div><div class="lbl">Hechas</div><div class="sub">en producción</div></div><div class="kpi"><div class="num" style="color:#1A4D2E">0</div><div class="lbl">Con resultado</div><div class="sub">medido a 4 sem.</div></div><div class="kpi"><div class="num" style="color:#6b6b6b">16</div><div class="lbl">Descartadas</div><div class="sub">antiguas o duplicadas</div></div></div>
 
-<section><h2>🗂️ Indexación en Google — <span style="color:#b3261e">55 URL(s) con problemas</span></h2><div><span class="tag">revisadas 377</span> <span class="tag">indexadas 322</span></div><table><tr><th>Gravedad</th><th>Problema → solución</th></tr><tr><td><span class="dot" style="background:#b3261e"></span>🔧 PR · 44</td><td>Google la conoce pero aún no la ha rastreado/indexado (señales débiles o presupuesto de rastreo).<div class="small" style="color:#1A4D2E">→ Reforzar enlaces internos hacia la página desde páginas hermanas relevantes y reenviar el sitemap para forzar el rastreo.</div><ul class="list" style="margin-top:4px"><li class="small muted">https://lazar.golf/es/autor/dani-salmeron</li><li class="small muted">https://lazar.golf/en/blog</li><li class="small muted">https://lazar.golf/en/autor/dani-salmeron</li><li class="small muted">https://lazar.golf/en/blog/amateur-golf-prizes</li><li class="small muted">https://lazar.golf/es/blog/app-usga-guia-golf-comparativa</li></ul></td></tr><tr><td><span class="dot" style="background:#b3261e"></span>🔧 PR · 9</td><td>Google no conoce la URL (sin descubrir).<div class="small" style="color:#1A4D2E">→ Enlazarla internamente desde páginas indexadas y reenviar el sitemap.</div><ul class="list" style="margin-top:4px"><li class="small muted">https://lazar.golf/es/blog/hoyo-en-uno-premio-amateur</li><li class="small muted">https://lazar.golf/es/blog/que-es-un-mulligan-en-golf</li><li class="small muted">https://lazar.golf/en/blog/ready-golf-playing-out-of-turn</li><li class="small muted">https://lazar.golf/en/rules/ball-moved-accidentally</li><li class="small muted">https://lazar.golf/en/rules/concession-match-play</li></ul></td></tr><tr><td><span class="dot" style="background:#b3261e"></span>🔧 PR · 2</td><td>Rastreada pero no indexada — Google la juzga de bajo valor o demasiado similar a otra.<div class="small" style="color:#1A4D2E">→ Mejorar la singularidad/profundidad del contenido y añadir enlaces internos contextuales que demuestren su relevancia.</div><ul class="list" style="margin-top:4px"><li class="small muted">https://lazar.golf/es/blog/espionaje-legal-informacion-rival</li><li class="small muted">https://lazar.golf/en/blog/smartwatch-legal-aid-or-cheat</li></ul></td></tr></table><p class="small" style="color:#1A4D2E">🤖 Acción automática: sitemap reenviado a Google para forzar un nuevo rastreo</p><p class="muted small" style="margin-top:8px">Comprobado: 2026-06-12 11:42</p></section>
+<section class="problems"><h2>🚨 Problemas SEO — <span style="color:#b3261e">53 detectados · 0 en PR · 2 resueltos</span></h2><table><thead><tr><th>Tipo</th><th>Estado</th><th class='r'>Detectados</th><th class='r'>En PR</th><th class='r'>Resueltos</th></tr></thead><tbody><tr><td style='color:#b3261e'><b>No indexada</b></td><td><div class="bar"><div class="seg" style="width:96.4%;background:#b3261e" title="Detectado: 53"></div><div class="seg" style="width:3.6%;background:#1A4D2E" title="Resuelto: 2"></div></div></td><td class='r'><b style='color:#b3261e'>53</b></td><td class='r' style='color:#1565c0'>0</td><td class='r' style='color:#1A4D2E'>2</td></tr><tr><td style='color:#1A4D2E'><b>Páginas que compiten</b></td><td><div class="bar"></div></td><td class='r'><b style='color:#b3261e'>0</b></td><td class='r' style='color:#1565c0'>0</td><td class='r' style='color:#1A4D2E'>0</td></tr><tr><td style='color:#1A4D2E'><b>Traducción ES↔EN</b></td><td><div class="bar"></div></td><td class='r'><b style='color:#b3261e'>0</b></td><td class='r' style='color:#1565c0'>0</td><td class='r' style='color:#1A4D2E'>0</td></tr><tr><td style='color:#1A4D2E'><b>Enlaces rotos</b></td><td><div class="bar"></div></td><td class='r'><b style='color:#b3261e'>0</b></td><td class='r' style='color:#1565c0'>0</td><td class='r' style='color:#1A4D2E'>0</td></tr></tbody></table><p class="small" style="margin-top:12px;color:#1565c0">Seobastian abrirá PRs para estos problemas en el próximo run.</p></section>
+
+<section><h2>🗂️ Indexación en Google — <span style="color:#b3261e">55 URL(s) con problemas</span></h2><div><span class="tag">revisadas 377</span> <span class="tag">indexadas 322</span></div><table><tr><th>Gravedad</th><th>Problema → solución</th></tr><tr><td><span class="dot" style="background:#b3261e"></span>🔧 PR · 44</td><td>Google la conoce pero aún no la ha rastreado/indexado (señales débiles o presupuesto de rastreo).<div class="small" style="color:#1A4D2E">→ Reforzar enlaces internos hacia la página desde páginas hermanas relevantes y reenviar el sitemap para forzar el rastreo.</div><ul class="list" style="margin-top:4px"><li class="small muted">https://lazar.golf/es/autor/dani-salmeron</li><li class="small muted">https://lazar.golf/en/blog</li><li class="small muted">https://lazar.golf/en/autor/dani-salmeron</li><li class="small muted">https://lazar.golf/en/blog/amateur-golf-prizes</li><li class="small muted">https://lazar.golf/es/blog/app-usga-guia-golf-comparativa</li></ul></td></tr><tr><td><span class="dot" style="background:#b3261e"></span>🔧 PR · 9</td><td>Google no conoce la URL (sin descubrir).<div class="small" style="color:#1A4D2E">→ Enlazarla internamente desde páginas indexadas y reenviar el sitemap.</div><ul class="list" style="margin-top:4px"><li class="small muted">https://lazar.golf/es/blog/hoyo-en-uno-premio-amateur</li><li class="small muted">https://lazar.golf/es/blog/que-es-un-mulligan-en-golf</li><li class="small muted">https://lazar.golf/en/blog/ready-golf-playing-out-of-turn</li><li class="small muted">https://lazar.golf/en/rules/ball-moved-accidentally</li><li class="small muted">https://lazar.golf/en/rules/concession-match-play</li></ul></td></tr><tr><td><span class="dot" style="background:#b3261e"></span>🔧 PR · 2</td><td>Rastreada pero no indexada — Google la juzga de bajo valor o demasiado similar a otra.<div class="small" style="color:#1A4D2E">→ Mejorar la singularidad/profundidad del contenido y añadir enlaces internos contextuales que demuestren su relevancia.</div><ul class="list" style="margin-top:4px"><li class="small muted">https://lazar.golf/es/blog/espionaje-legal-informacion-rival</li><li class="small muted">https://lazar.golf/en/blog/smartwatch-legal-aid-or-cheat</li></ul></td></tr></table><p class="small" style="color:#1A4D2E">🤖 Acción automática: sitemap reenviado a Google para forzar un nuevo rastreo</p><p class="muted small" style="margin-top:8px">Comprobado: 2026-06-12 13:42</p></section>
+
+<section><h2>🔎 Estado para Google — <span style="color:#1A4D2E">Listo para Google</span></h2><div><span class="tag">robots.txt OK</span> <span class="tag">sitemap 377 URLs</span> <span class="tag">indexadas 0/0 (muestra)</span></div><p class="muted small" style="margin-top:8px">Sin incidencias. 🎉</p><p class="muted small" style="margin-top:8px">Comprobado: 2026-06-12 13:02</p></section>
+
+<section><h2>🎯 Búsquedas objetivo <span class="muted small">— dónde aparecemos en Google</span></h2><table><thead><tr><th>Búsqueda</th><th>Dónde sales</th><th class='r'>Se busca/mes</th><th class='r'>Clics/mes</th><th>Quién va 1º</th></tr></thead><tbody><tr><td><b>reglas de golf</b> <span class="tag" style="background:#fde7e7;color:#b3261e" title="Google muestra una respuesta de IA pero no te incluye">🤖 No te cita ✗</span></td><td><b style="color:#b3261e">🔴 Puesto 60</b></td><td class='r muted'>2</td><td class='r muted'>0</td><td class='muted small'>www.randa.org</td></tr><tr><td><b>reglas básicas de golf</b> <span class="tag" style="background:#fde7e7;color:#b3261e" title="Google muestra una respuesta de IA pero no te incluye">🤖 No te cita ✗</span></td><td><b style="color:#b3261e">🔴 Puesto 49</b></td><td class='r muted'>2</td><td class='r muted'>0</td><td class='muted small'>rfegolf.es</td></tr><tr><td><b>bola perdida</b> <span class="tag" style="background:#fde7e7;color:#b3261e" title="Google muestra una respuesta de IA pero no te incluye">🤖 No te cita ✗</span></td><td><b style="color:#B8860B">🟡 Puesto 10</b></td><td class='r muted'>1</td><td class='r muted'>0</td><td class='muted small'>www.randa.org</td></tr><tr><td><b>tiempo para buscar una bola</b> <span class="tag" style="background:#fde7e7;color:#b3261e" title="Google muestra una respuesta de IA pero no te incluye">🤖 No te cita ✗</span></td><td><span class="muted">No apareces</span></td><td class='r muted'>0</td><td class='r muted'>0</td><td class='muted small'>www.usga.org</td></tr><tr><td><b>alivio sin penalización</b> <span class="tag" style="background:#fde7e7;color:#b3261e" title="Google muestra una respuesta de IA pero no te incluye">🤖 No te cita ✗</span></td><td><span class="muted">No apareces</span></td><td class='r muted'>0</td><td class='r muted'>0</td><td class='muted small'>www.randa.org</td></tr><tr><td><b>áreas de penalización</b> <span class="tag" style="background:#fde7e7;color:#b3261e" title="Google muestra una respuesta de IA pero no te incluye">🤖 No te cita ✗</span></td><td><span class="muted">No apareces</span></td><td class='r muted'>0</td><td class='r muted'>0</td><td class='muted small'>www.randa.org</td></tr><tr><td><b>reglas golf app</b> <span class="tag" style="background:#fde7e7;color:#b3261e" title="Google muestra una respuesta de IA pero no te incluye">🤖 No te cita ✗</span></td><td><span class="muted">No apareces</span></td><td class='r muted'>0</td><td class='r muted'>0</td><td class='muted small'>apps.apple.com</td></tr><tr><td><b>app de reglas de golf</b> <span class="tag" style="background:#fde7e7;color:#b3261e" title="Google muestra una respuesta de IA pero no te incluye">🤖 No te cita ✗</span></td><td><span class="muted">No apareces</span></td><td class='r muted'>0</td><td class='r muted'>0</td><td class='muted small'>apps.apple.com</td></tr><tr><td><b>cual es el handicap mas alto en golf</b> <span class="tag" style="background:#fde7e7;color:#b3261e" title="Google muestra una respuesta de IA pero no te incluye">🤖 No te cita ✗</span></td><td><b style="color:#b3261e">🔴 Puesto 12</b></td><td class='r muted'>7</td><td class='r muted'>0</td><td class='muted small'>tpcdanzantebay.mx</td></tr><tr><td><b>modalidad stroke play golf</b></td><td><b style="color:#b3261e">🔴 Puesto 11</b></td><td class='r muted'>7</td><td class='r muted'>0</td><td class='muted small'>es.wikipedia.org</td></tr><tr><td><b>como bajar el handicap de golf</b> <span class="tag" style="background:#fde7e7;color:#b3261e" title="Google muestra una respuesta de IA pero no te incluye">🤖 No te cita ✗</span></td><td><b style="color:#b3261e">🔴 Puesto 39</b></td><td class='r muted'>12</td><td class='r muted'>0</td><td class='muted small'>www.rfegolf.es</td></tr><tr><td><b>golf rules</b> <span class="tag" style="background:#fde7e7;color:#b3261e" title="Google muestra una respuesta de IA pero no te incluye">🤖 No te cita ✗</span></td><td><b style="color:#b3261e">🔴 Puesto 78</b></td><td class='r muted'>1</td><td class='r muted'>0</td><td class='muted small'>www.usga.org</td></tr><tr><td><b>golf rules for beginners</b></td><td><b style="color:#b3261e">🔴 Puesto 77</b></td><td class='r muted'>1</td><td class='r muted'>0</td><td class='muted small'>www.usga.org</td></tr><tr><td><b>lost ball rule</b> <span class="tag" style="background:#fde7e7;color:#b3261e" title="Google muestra una respuesta de IA pero no te incluye">🤖 No te cita ✗</span></td><td><span class="muted">No apareces</span></td><td class='r muted'>0</td><td class='r muted'>0</td><td class='muted small'>www.usga.org</td></tr><tr><td><b>penalty area rules</b> <span class="tag" style="background:#fde7e7;color:#b3261e" title="Google muestra una respuesta de IA pero no te incluye">🤖 No te cita ✗</span></td><td><span class="muted">No apareces</span></td><td class='r muted'>0</td><td class='r muted'>0</td><td class='muted small'>www.usga.org</td></tr><tr><td><b>rule 17 golf</b> <span class="tag" style="background:#fde7e7;color:#b3261e" title="Google muestra una respuesta de IA pero no te incluye">🤖 No te cita ✗</span></td><td><b style="color:#b3261e">🔴 Puesto 20</b></td><td class='r muted'>3</td><td class='r muted'>0</td><td class='muted small'>www.usga.org</td></tr><tr><td><b>free relief golf</b> <span class="tag" style="background:#fde7e7;color:#b3261e" title="Google muestra una respuesta de IA pero no te incluye">🤖 No te cita ✗</span></td><td><b style="color:#b3261e">🔴 Puesto 30</b></td><td class='r muted'>3</td><td class='r muted'>0</td><td class='muted small'>www.usga.org</td></tr><tr><td><b>maximum handicap</b> <span class="tag" style="background:#fde7e7;color:#b3261e" title="Google muestra una respuesta de IA pero no te incluye">🤖 No te cita ✗</span></td><td><b style="color:#B8860B">🟡 Puesto 10</b></td><td class='r muted'>1</td><td class='r muted'>0</td><td class='muted small'>www.usga.org</td></tr><tr><td><b>golf rules app</b> <span class="tag" style="background:#fde7e7;color:#b3261e" title="Google muestra una respuesta de IA pero no te incluye">🤖 No te cita ✗</span></td><td><b style="color:#b3261e">🔴 Puesto 25</b></td><td class='r muted'>2</td><td class='r muted'>0</td><td class='muted small'>www.usga.org</td></tr></tbody></table><p class="muted small">🟢 Puesto 1–3 (top) · 🟡 Puesto 4–10 (1ª página) · 🔴 Puesto 11+ (2ª página o más). <b>🤖 Te cita ✓</b> = Google te incluye en su respuesta de IA · <b>🤖 No te cita ✗</b> = hay respuesta de IA pero no apareces en ella. Datos a 2026-06-15.</p></section>
 
 <section><h2>🔗 Autoridad / Backlinks</h2><p class="muted">Sin datos de backlinks (requiere DataForSEO).</p></section>
 
-<section><h2>🎯 Keywords objetivo <span class="muted small">— posición en Google</span></h2><table><thead><tr><th>Keyword</th><th class='r'>Pos.</th><th class='r'>Apar.</th><th class='r'>Clics</th><th>Top competidor</th></tr></thead><tbody><tr><td><b>reglas de golf</b> <span class="tag" style="background:#fde7e7;color:#b3261e">IA ✗ sin ti</span></td><td class='r'><b style='color:#b3261e'>60</b></td><td class='r muted'>2</td><td class='r muted'>0</td><td class='muted small'>www.randa.org</td></tr><tr><td><b>reglas básicas de golf</b> <span class="tag" style="background:#fde7e7;color:#b3261e">IA ✗ sin ti</span></td><td class='r'><b style='color:#b3261e'>49</b></td><td class='r muted'>2</td><td class='r muted'>0</td><td class='muted small'>rfegolf.es</td></tr><tr><td><b>bola perdida</b></td><td class='r'><b style='color:#B8860B'>10</b></td><td class='r muted'>1</td><td class='r muted'>0</td><td class='muted small'>www.randa.org</td></tr><tr><td><b>tiempo para buscar una bola</b> <span class="tag" style="background:#fde7e7;color:#b3261e">IA ✗ sin ti</span></td><td class='r'><b style='color:#6b6b6b'>—</b></td><td class='r muted'>0</td><td class='r muted'>0</td><td class='muted small'>www.facebook.com</td></tr><tr><td><b>alivio sin penalización</b></td><td class='r'><b style='color:#6b6b6b'>—</b></td><td class='r muted'>0</td><td class='r muted'>0</td><td class='muted small'>www.randa.org</td></tr><tr><td><b>áreas de penalización</b> <span class="tag" style="background:#fde7e7;color:#b3261e">IA ✗ sin ti</span></td><td class='r'><b style='color:#6b6b6b'>—</b></td><td class='r muted'>0</td><td class='r muted'>0</td><td class='muted small'>www.randa.org</td></tr><tr><td><b>reglas golf app</b></td><td class='r'><b style='color:#6b6b6b'>—</b></td><td class='r muted'>0</td><td class='r muted'>0</td><td class='muted small'>—</td></tr><tr><td><b>app de reglas de golf</b></td><td class='r'><b style='color:#6b6b6b'>—</b></td><td class='r muted'>0</td><td class='r muted'>0</td><td class='muted small'>—</td></tr><tr><td><b>cual es el handicap mas alto en golf</b></td><td class='r'><b style='color:#b3261e'>12</b></td><td class='r muted'>7</td><td class='r muted'>0</td><td class='muted small'>—</td></tr><tr><td><b>modalidad stroke play golf</b></td><td class='r'><b style='color:#b3261e'>11</b></td><td class='r muted'>7</td><td class='r muted'>0</td><td class='muted small'>—</td></tr><tr><td><b>como bajar el handicap de golf</b></td><td class='r'><b style='color:#b3261e'>39</b></td><td class='r muted'>12</td><td class='r muted'>0</td><td class='muted small'>—</td></tr><tr><td><b>golf rules</b> <span class="tag" style="background:#fde7e7;color:#b3261e">IA ✗ sin ti</span></td><td class='r'><b style='color:#b3261e'>78</b></td><td class='r muted'>1</td><td class='r muted'>0</td><td class='muted small'>www.usga.org</td></tr><tr><td><b>golf rules for beginners</b> <span class="tag" style="background:#fde7e7;color:#b3261e">IA ✗ sin ti</span></td><td class='r'><b style='color:#b3261e'>77</b></td><td class='r muted'>1</td><td class='r muted'>0</td><td class='muted small'>www.usga.org</td></tr><tr><td><b>lost ball rule</b> <span class="tag" style="background:#fde7e7;color:#b3261e">IA ✗ sin ti</span></td><td class='r'><b style='color:#6b6b6b'>—</b></td><td class='r muted'>0</td><td class='r muted'>0</td><td class='muted small'>www.usga.org</td></tr><tr><td><b>penalty area rules</b> <span class="tag" style="background:#fde7e7;color:#b3261e">IA ✗ sin ti</span></td><td class='r'><b style='color:#6b6b6b'>—</b></td><td class='r muted'>0</td><td class='r muted'>0</td><td class='muted small'>www.usga.org</td></tr><tr><td><b>rule 17 golf</b> <span class="tag" style="background:#fde7e7;color:#b3261e">IA ✗ sin ti</span></td><td class='r'><b style='color:#b3261e'>20</b></td><td class='r muted'>3</td><td class='r muted'>0</td><td class='muted small'>www.usga.org</td></tr><tr><td><b>free relief golf</b> <span class="tag" style="background:#fde7e7;color:#b3261e">IA ✗ sin ti</span></td><td class='r'><b style='color:#b3261e'>30</b></td><td class='r muted'>2</td><td class='r muted'>0</td><td class='muted small'>www.usga.org</td></tr><tr><td><b>maximum handicap</b> <span class="tag" style="background:#fde7e7;color:#b3261e">IA ✗ sin ti</span></td><td class='r'><b style='color:#B8860B'>10</b></td><td class='r muted'>1</td><td class='r muted'>0</td><td class='muted small'>www.usga.org</td></tr><tr><td><b>golf rules app</b></td><td class='r'><b style='color:#b3261e'>25</b></td><td class='r muted'>2</td><td class='r muted'>0</td><td class='muted small'>—</td></tr></tbody></table><p class="muted small">Pos: verde ≤3 · dorado ≤10. <b>IA ✓ citado</b> = ya apareces en el AI Overview de Google · <b>IA ✗ sin ti</b> = hay AI Overview pero NO te cita (ese es el objetivo a cerrar). Medido a 2026-06-12.</p></section>
+<section>
+  <h2>💡 Mejoras en curso — PRs esperando tu OK (8)</h2>
+  <ul class='list'><li><a href="https://github.com/okuspocus/lazar/pull/72" target="_blank">Create dedicated 9-hole handicap calculator / explainer pages (EN + ES)</a> <span class="tag">Página nueva</span></li><li><a href="https://github.com/okuspocus/lazar/pull/95" target="_blank">IA sin citarte: «lost ball golf rule» — posición 10</a> <span class="tag">Citación IA</span></li><li><a href="https://github.com/okuspocus/lazar/pull/89" target="_blank">IA sin citarte: «maximum handicap» — https://lazar.golf/en/handicap/maximum-handicap</a> <span class="tag">Citación IA</span></li><li><a href="https://github.com/okuspocus/lazar/pull/99" target="_blank">IA sin citarte: «bola perdida golf» — posición 10</a> <span class="tag">Citación IA</span></li><li><a href="https://github.com/okuspocus/lazar/pull/100" target="_blank">IA sin citarte como app: «best golf rules app» / «golf rules ai app»</a> <span class="tag">Citación IA</span></li><li><a href="https://github.com/okuspocus/lazar/pull/101" target="_blank">IA sin citarte como app: «ai golf caddy app» / «best ai golf caddie app»</a> <span class="tag">Citación IA</span></li><li><a href="https://github.com/okuspocus/lazar/pull/90" target="_blank">IA sin citarte: «rule 17 golf» — https://lazar.golf/en/rules/golf-rule-17-penalty-areas</a> <span class="tag">Citación IA</span></li><li><a href="https://github.com/okuspocus/lazar/pull/91" target="_blank">IA sin citarte: «free relief golf» — https://lazar.golf/en/rules/rule-16-1-free-relief-gro</a> <span class="tag">Citación IA</span></li></ul>
+</section>
 
 <section>
-  <h2>Pipeline</h2>
-  <div class="bar"><div class="seg" style="width:30.8%;background:#B8860B" title="Pendiente: 99"></div><div class="seg" style="width:0.3%;background:#1565c0" title="En PR: 1"></div><div class="seg" style="width:63.6%;background:#1A4D2E" title="Hecho: 204"></div><div class="seg" style="width:4.7%;background:#cfcfcf" title="Descartado: 15"></div></div>
+  <h2>Estado general del trabajo</h2>
+  <div class="bar"><div class="seg" style="width:26.0%;background:#B8860B" title="Pendiente: 87"></div><div class="seg" style="width:2.4%;background:#1565c0" title="En PR: 8"></div><div class="seg" style="width:62.1%;background:#1A4D2E" title="Hecho: 208"></div><div class="seg" style="width:4.8%;background:#cfcfcf" title="Descartado: 16"></div></div>
   <div class="legend">
-    <span class="dot" style="background:#B8860B"></span><b>Pendiente</b>
-    <span class="dot" style="background:#1565c0"></span><b>En PR</b>
-    <span class="dot" style="background:#1A4D2E"></span><b>Hecho</b>
-    <span class="dot" style="background:#cfcfcf"></span><b>Descartado</b>
+    <span class="dot" style="background:#B8860B"></span><b>Pendiente</b> — detectado, sin hacer todavía
+    <span class="dot" style="background:#1565c0"></span><b>En PR</b> — el agente lo hizo, espera tu OK
+    <span class="dot" style="background:#1A4D2E"></span><b>Hecho</b> — aprobado y en producción
+    <span class="dot" style="background:#cfcfcf"></span><b>Descartado</b> — antiguo o duplicado
   </div>
 </section>
 
 <section>
-  <h2>Backlog por tipo</h2>
-  <table><thead><tr><th>Tipo</th><th>Distribución</th><th class="r">Pend.</th>
-  <th class="r">En PR</th><th class="r">Hecho</th><th class="r">Desc.</th><th class="r">Total</th></tr></thead>
-  <tbody><tr><td><b>meta</b></td><td><div class="bar"><div class="seg" style="width:98.4%;background:#1A4D2E" title="done: 188"></div><div class="seg" style="width:1.6%;background:#cfcfcf" title="dismissed: 3"></div></div></td><td class='r'>0</td><td class='r'>0</td><td class='r'>188</td><td class='r muted'>3</td><td class='r'><b>191</b></td></tr><tr><td><b>indexing</b></td><td><div class="bar"><div class="seg" style="width:96.4%;background:#B8860B" title="new: 53"></div><div class="seg" style="width:1.8%;background:#1565c0" title="in_pr: 1"></div><div class="seg" style="width:1.8%;background:#1A4D2E" title="done: 1"></div></div></td><td class='r'>53</td><td class='r'>1</td><td class='r'>1</td><td class='r muted'>0</td><td class='r'><b>55</b></td></tr><tr><td><b>striking_distance</b></td><td><div class="bar"><div class="seg" style="width:68.2%;background:#B8860B" title="new: 30"></div><div class="seg" style="width:25.0%;background:#1A4D2E" title="done: 11"></div><div class="seg" style="width:6.8%;background:#cfcfcf" title="dismissed: 3"></div></div></td><td class='r'>30</td><td class='r'>0</td><td class='r'>11</td><td class='r muted'>3</td><td class='r'><b>44</b></td></tr><tr><td><b>content_gap</b></td><td><div class="bar"><div class="seg" style="width:87.5%;background:#B8860B" title="new: 14"></div><div class="seg" style="width:6.2%;background:#1A4D2E" title="done: 1"></div><div class="seg" style="width:6.2%;background:#cfcfcf" title="dismissed: 1"></div></div></td><td class='r'>14</td><td class='r'>0</td><td class='r'>1</td><td class='r muted'>1</td><td class='r'><b>16</b></td></tr><tr><td><b>interlinking</b></td><td><div class="bar"><div class="seg" style="width:15.4%;background:#B8860B" title="new: 2"></div><div class="seg" style="width:23.1%;background:#1A4D2E" title="done: 3"></div><div class="seg" style="width:61.5%;background:#cfcfcf" title="dismissed: 8"></div></div></td><td class='r'>2</td><td class='r'>0</td><td class='r'>3</td><td class='r muted'>8</td><td class='r'><b>13</b></td></tr></tbody></table>
-</section>
-
-<section>
-  <h2>🔧 Pendiente de tu aprobación (1)</h2>
-  <ul class='list'><li><a href="https://github.com/okuspocus/lazar/pull/70" target="_blank">Indexación: Google la conoce pero aún no la ha rastreado/indexado (señales débiles — https</a> <span class="tag">indexing</span></li></ul>
+  <h2>Trabajo por área</h2>
+  <table><thead><tr><th>Área</th><th>Distribución</th><th class="r">Pendiente</th>
+  <th class="r">En PR</th><th class="r">Hecho</th><th class="r">Descartado</th><th class="r">Total</th></tr></thead>
+  <tbody><tr><td><b>Título/descripción</b></td><td><div class="bar"><div class="seg" style="width:98.4%;background:#1A4D2E" title="Hecho: 188"></div><div class="seg" style="width:1.6%;background:#cfcfcf" title="Descartado: 3"></div></div></td><td class='r'>0</td><td class='r'>0</td><td class='r'>188</td><td class='r muted'>3</td><td class='r'><b>191</b></td></tr><tr><td><b>No indexada</b></td><td><div class="bar"><div class="seg" style="width:96.4%;background:#B8860B" title="Pendiente: 53"></div><div class="seg" style="width:3.6%;background:#1A4D2E" title="Hecho: 2"></div></div></td><td class='r'>53</td><td class='r'>0</td><td class='r'>2</td><td class='r muted'>0</td><td class='r'><b>55</b></td></tr><tr><td><b>Subir en Google</b></td><td><div class="bar"><div class="seg" style="width:68.2%;background:#B8860B" title="Pendiente: 30"></div><div class="seg" style="width:25.0%;background:#1A4D2E" title="Hecho: 11"></div><div class="seg" style="width:6.8%;background:#cfcfcf" title="Descartado: 3"></div></div></td><td class='r'>30</td><td class='r'>0</td><td class='r'>11</td><td class='r muted'>3</td><td class='r'><b>44</b></td></tr><tr><td><b>Enlaces internos</b></td><td><div class="bar"><div class="seg" style="width:15.4%;background:#B8860B" title="Pendiente: 2"></div><div class="seg" style="width:23.1%;background:#1A4D2E" title="Hecho: 3"></div><div class="seg" style="width:61.5%;background:#cfcfcf" title="Descartado: 8"></div></div></td><td class='r'>2</td><td class='r'>0</td><td class='r'>3</td><td class='r muted'>8</td><td class='r'><b>13</b></td></tr><tr><td><b>Citación IA</b></td><td><div class="bar"><div class="seg" style="width:22.2%;background:#B8860B" title="Pendiente: 2"></div><div class="seg" style="width:77.8%;background:#1565c0" title="En PR: 7"></div></div></td><td class='r'>2</td><td class='r'>7</td><td class='r'>0</td><td class='r muted'>0</td><td class='r'><b>9</b></td></tr><tr><td><b>Página nueva</b></td><td><div class="bar"><div class="seg" style="width:14.3%;background:#1565c0" title="En PR: 1"></div><div class="seg" style="width:57.1%;background:#1A4D2E" title="Hecho: 4"></div><div class="seg" style="width:28.6%;background:#cfcfcf" title="Descartado: 2"></div></div></td><td class='r'>0</td><td class='r'>1</td><td class='r'>4</td><td class='r muted'>2</td><td class='r'><b>7</b></td></tr></tbody></table>
 </section>
 
 <section>
   <h2>✅ Hecho recientemente</h2>
-  <ul class='list'><li>Indexación: Google la conoce pero aún no la ha rastreado/indexado (señales débiles — https <span class="tag ok">indexing</span> <a href="https://github.com/okuspocus/lazar/pull/69" target="_blank">PR</a></li><li>SEO title 64 chars (&gt;60) — https://lazar.golf/es/reglas/punto-mas-cercano-de-alivio <span class="tag ok">meta</span> <a href="https://github.com/okuspocus/lazar/pull/46" target="_blank">PR</a></li><li>SEO title 61 chars (&gt;60) — https://lazar.golf/es/blog/alivio-sin-penalidad-camino-carro <span class="tag ok">meta</span> <a href="https://github.com/okuspocus/lazar/pull/46" target="_blank">PR</a></li><li>Striking distance: pos 9.3, 15 impr — https://lazar.golf/en/blog/does-a-whiff-count-air-sh <span class="tag ok">striking_distance</span> <a href="https://github.com/okuspocus/lazar/pull/48" target="_blank">PR</a></li><li>Striking distance: pos 15.8, 43 impr — https://lazar.golf/es/blog/que-es-el-par-en-golf <span class="tag ok">striking_distance</span> <a href="https://github.com/okuspocus/lazar/pull/47" target="_blank">PR</a></li><li>Meta description 160 chars (&gt;155) — https://lazar.golf/en/blog/what-is-par-in-golf <span class="tag ok">meta</span> <a href="https://github.com/okuspocus/lazar/pull/40" target="_blank">PR</a></li><li>SEO title 63 chars (&gt;60) — https://lazar.golf/es/blog/smartwatch-ayuda-o-trampa <span class="tag ok">meta</span> <a href="https://github.com/okuspocus/lazar/pull/40" target="_blank">PR</a></li><li>SEO title 62 chars (&gt;60) — https://lazar.golf/es/blog/reglas-golf-que-incumples <span class="tag ok">meta</span> <a href="https://github.com/okuspocus/lazar/pull/40" target="_blank">PR</a></li><li>Meta description 162 chars (&gt;155) — https://lazar.golf/es/blog/match-play-guerra-psicol <span class="tag ok">meta</span> <a href="https://github.com/okuspocus/lazar/pull/40" target="_blank">PR</a></li><li>SEO title 62 chars (&gt;60) — https://lazar.golf/en/blog/green-accidents-sacred-zone <span class="tag ok">meta</span> <a href="https://github.com/okuspocus/lazar/pull/40" target="_blank">PR</a></li><li>Meta description 166 chars (&gt;155) — https://lazar.golf/es/blog/alivio-gratis-lie-perfec <span class="tag ok">meta</span> <a href="https://github.com/okuspocus/lazar/pull/40" target="_blank">PR</a></li><li>Meta description 168 chars (&gt;155) — https://lazar.golf/en/situations/where-to-drop-afte <span class="tag ok">meta</span> <a href="https://github.com/okuspocus/lazar/pull/40" target="_blank">PR</a></li><li>SEO title 62 chars (&gt;60) — https://lazar.golf/en/situations/where-to-drop-after-relief <span class="tag ok">meta</span> <a href="https://github.com/okuspocus/lazar/pull/40" target="_blank">PR</a></li><li>Meta description 168 chars (&gt;155) — https://lazar.golf/en/situations/unplayable-ball <span class="tag ok">meta</span> <a href="https://github.com/okuspocus/lazar/pull/40" target="_blank">PR</a></li><li>Meta description 165 chars (&gt;155) — https://lazar.golf/en/situations/two-players-hit-sa <span class="tag ok">meta</span> <a href="https://github.com/okuspocus/lazar/pull/40" target="_blank">PR</a></li></ul>
+  <ul class='list'><li>Demanda sin cubrir: «reglas de golf 2025» (90/mes) — sin página que rankee <span class="tag ok">Página nueva</span> <a href="https://github.com/okuspocus/lazar/pull/75" target="_blank">PR</a></li><li>Demanda sin cubrir: «usga rules of golf app» (480/mes) — sin página que rankee <span class="tag ok">Página nueva</span> <a href="https://github.com/okuspocus/lazar/pull/74" target="_blank">PR</a></li><li>Indexación: Google la conoce pero aún no la ha rastreado/indexado (señales débiles — https <span class="tag ok">No indexada</span> <a href="https://github.com/okuspocus/lazar/pull/70" target="_blank">PR</a></li><li>Build a dedicated 9-hole handicap calculator tool/page <span class="tag ok">Página nueva</span> <a href="https://github.com/okuspocus/lazar/pull/73" target="_blank">PR</a></li><li>Indexación: Google la conoce pero aún no la ha rastreado/indexado (señales débiles — https <span class="tag ok">No indexada</span> <a href="https://github.com/okuspocus/lazar/pull/69" target="_blank">PR</a></li><li>SEO title 64 chars (&gt;60) — https://lazar.golf/es/reglas/punto-mas-cercano-de-alivio <span class="tag ok">Título/descripción</span> <a href="https://github.com/okuspocus/lazar/pull/46" target="_blank">PR</a></li><li>SEO title 61 chars (&gt;60) — https://lazar.golf/es/blog/alivio-sin-penalidad-camino-carro <span class="tag ok">Título/descripción</span> <a href="https://github.com/okuspocus/lazar/pull/46" target="_blank">PR</a></li><li>Striking distance: pos 9.3, 15 impr — https://lazar.golf/en/blog/does-a-whiff-count-air-sh <span class="tag ok">Subir en Google</span> <a href="https://github.com/okuspocus/lazar/pull/48" target="_blank">PR</a></li><li>Striking distance: pos 15.8, 43 impr — https://lazar.golf/es/blog/que-es-el-par-en-golf <span class="tag ok">Subir en Google</span> <a href="https://github.com/okuspocus/lazar/pull/47" target="_blank">PR</a></li><li>Meta description 160 chars (&gt;155) — https://lazar.golf/en/blog/what-is-par-in-golf <span class="tag ok">Título/descripción</span> <a href="https://github.com/okuspocus/lazar/pull/40" target="_blank">PR</a></li><li>SEO title 63 chars (&gt;60) — https://lazar.golf/es/blog/smartwatch-ayuda-o-trampa <span class="tag ok">Título/descripción</span> <a href="https://github.com/okuspocus/lazar/pull/40" target="_blank">PR</a></li><li>SEO title 62 chars (&gt;60) — https://lazar.golf/es/blog/reglas-golf-que-incumples <span class="tag ok">Título/descripción</span> <a href="https://github.com/okuspocus/lazar/pull/40" target="_blank">PR</a></li><li>Meta description 162 chars (&gt;155) — https://lazar.golf/es/blog/match-play-guerra-psicol <span class="tag ok">Título/descripción</span> <a href="https://github.com/okuspocus/lazar/pull/40" target="_blank">PR</a></li><li>SEO title 62 chars (&gt;60) — https://lazar.golf/en/blog/green-accidents-sacred-zone <span class="tag ok">Título/descripción</span> <a href="https://github.com/okuspocus/lazar/pull/40" target="_blank">PR</a></li><li>Meta description 166 chars (&gt;155) — https://lazar.golf/es/blog/alivio-gratis-lie-perfec <span class="tag ok">Título/descripción</span> <a href="https://github.com/okuspocus/lazar/pull/40" target="_blank">PR</a></li></ul>
 </section>
 
 <section>
   <h2>📈 Atribución (impacto medido)</h2>
-  <p class="muted">Todavía sin mediciones. La atribución necesita ~4 semanas tras los primeros cambios aprobados.</p>
+  <p class="muted">Sin resultados medidos aún. Se necesitan ~4 semanas tras los primeros cambios aprobados para ver el impacto.</p>
 </section>
 
-<footer>Generado por Seobastian · 2026-06-14 10:26 · datos de data/backlog.sqlite</footer>
-</div></body></html>
+<footer>Generado por Seobastian · 2026-06-15 12:38 · data/backlog.sqlite</footer>
+</div>
+<script>
+const _REPO = 'okuspocus/seobastian';
+const _WF   = 'weekly.yml';
+const _API  = 'https://api.github.com';
+
+function _tok()        { return localStorage.getItem('seo_gh_token'); }
+function _saveTok(t)   { localStorage.setItem('seo_gh_token', t); }
+
+async function runSeobastian() {
+  let tok = _tok();
+  if (!tok) {
+    tok = prompt(
+      'Pega un GitHub Personal Access Token con scope "workflow":\n' +
+      'https://github.com/settings/tokens/new?scopes=workflow'
+    );
+    if (!tok) return;
+    _saveTok(tok);
+  }
+  const btn = document.getElementById('run-btn');
+  btn.disabled = true;
+  btn.textContent = 'Lanzando…';
+  try {
+    const r = await fetch(
+      `${_API}/repos/${_REPO}/actions/workflows/${_WF}/dispatches`,
+      {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${tok}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ref: 'main' })
+      }
+    );
+    if (r.status === 204) {
+      btn.textContent = '✅ Lanzado';
+      document.getElementById('run-status').textContent = 'Run encolado — aparecerá en GitHub Actions en unos segundos.';
+      setTimeout(loadStatus, 6000);
+    } else if (r.status === 401 || r.status === 403) {
+      localStorage.removeItem('seo_gh_token');
+      btn.textContent = 'Token inválido — haz clic para reintentar';
+    } else {
+      btn.textContent = `Error ${r.status} — reintenta`;
+    }
+  } catch(e) {
+    btn.textContent = 'Error de red — reintenta';
+  }
+  setTimeout(() => { btn.disabled = false; btn.textContent = '▶ Ejecutar Seobastian'; }, 6000);
+}
+
+async function loadStatus() {
+  const tok = _tok();
+  const el  = document.getElementById('run-status');
+  if (!tok) { el.textContent = 'Token no configurado — haz clic en Ejecutar para configurarlo.'; return; }
+  try {
+    const r = await fetch(
+      `${_API}/repos/${_REPO}/actions/workflows/${_WF}/runs?per_page=3`,
+      { headers: { Authorization: `Bearer ${tok}` } }
+    );
+    if (!r.ok) { el.textContent = `No se pudo obtener el estado (${r.status}).`; return; }
+    const runs = (await r.json()).workflow_runs || [];
+    if (!runs.length) { el.textContent = 'Sin runs registrados.'; return; }
+    el.innerHTML = runs.slice(0, 2).map(run => {
+      const when = (run.updated_at || '').substring(0, 16).replace('T', ' ');
+      const link = `<a href="${run.html_url}" target="_blank">ver</a>`;
+      if (run.status !== 'completed') {
+        return `<span style="color:#1565c0">⟳ ${run.status}</span> · ${link} · ${when}`;
+      }
+      const ok = run.conclusion === 'success';
+      return `<span style="color:${ok ? '#1A4D2E' : '#b3261e'}">${ok ? '✓' : '✗'} ${run.conclusion}</span> · ${link} · ${when}`;
+    }).join('<br>');
+  } catch(e) { el.textContent = 'No se pudo cargar el estado.'; }
+}
+
+function forgetToken() {
+  localStorage.removeItem('seo_gh_token');
+  document.getElementById('run-status').textContent = 'Token eliminado.';
+}
+
+window.addEventListener('load', loadStatus);
+</script>
+</body></html>
