@@ -2,77 +2,302 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Seobastian · lazar</title>
 <style>
+/* ---------------------------------------------------------------------------
+   Escala, no números sueltos.
+
+   La primera versión tenía SIETE tamaños de fuente y ONCE espaciados elegidos
+   uno a uno, que es como se consigue que nada quede alineado con nada sin que
+   se sepa por qué. Aquí hay una escala tipográfica y una rejilla de 4 px, y
+   todo lo demás sale de ellas.
+
+   Ninguna clase cambia de nombre: el JS escribe `q`, `mk`, `ev`, `tag ok`… y
+   renombrar cualquiera sería romper el pintado para arreglar el aspecto.
+--------------------------------------------------------------------------- */
+:root{
+  /* Tipografía: 12 / 13 / 15 / 20 / 28, y nada entre medias. */
+  --t-xs:.75rem; --t-sm:.8125rem; --t-md:.9375rem; --t-lg:1.25rem; --t-xl:1.75rem;
+  /* Espaciado en múltiplos de 4. */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px; --s8:32px;
+  --r-sm:6px; --r-md:10px; --r-lg:14px;
+
+  --bg:#f4f5f7; --card:#fff; --ink:#15181e; --dim:#5f6672; --line:#e3e6ea;
+  --ok:#0a7247; --warn:#9a5b00; --bad:#b3261e; --accent:#8a6508;
+  --bar:#e9ebef; --shadow:0 1px 2px rgba(16,20,28,.05),0 1px 8px rgba(16,20,28,.04);
+  /* Fondos de las insignias: relleno tenue en vez de borde de color, que a
+     11 px se ve sucio y compite con el texto que rodea. */
+  --ok-bg:#e7f4ee; --warn-bg:#fdf1dc; --bad-bg:#fdeaea; --neutral-bg:#eef0f3;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d0f13; --card:#161a21; --ink:#e9ebef; --dim:#98a0ac; --line:#242a33;
+    --ok:#3ddc9a; --warn:#f5bd4f; --bad:#ff8b84; --accent:#e3ba57;
+    --bar:#222932; --shadow:none;
+    --ok-bg:#12281f; --warn-bg:#2b2113; --bad-bg:#2e1a19; --neutral-bg:#1e242c;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d0f13; --card:#161a21; --ink:#e9ebef; --dim:#98a0ac; --line:#242a33;
+  --ok:#3ddc9a; --warn:#f5bd4f; --bad:#ff8b84; --accent:#e3ba57;
+  --bar:#222932; --shadow:none;
+  --ok-bg:#12281f; --warn-bg:#2b2113; --bad-bg:#2e1a19; --neutral-bg:#1e242c;
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
-     color:#1d1d1f;background:#f5f5f7}
-.wrap{max-width:780px;margin:0 auto;padding:24px 16px 60px}
-header{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;
-        gap:8px;margin-bottom:16px}
-h1{font-size:22px;margin:0}
-h1 span{color:#B8860B}
-.meta{color:#6b6b6b;font-size:13px}
-footer{color:#9a9a9a;font-size:12px;text-align:center;margin-top:20px}
-a{color:#1565c0}
-@media(max-width:600px){.wrap{padding:12px 10px 40px}}
-</style></head>
-<body><div class="wrap">
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:var(--t-md)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--s4) var(--s8)}
 
-<header>
-  <h1>Seo<span>bastian</span> · lazar</h1>
-  <div class="meta">21 Aug 2026 · <a href="https://lazar.golf" target="_blank">https://lazar.golf</a></div>
-</header>
+/* Cabecera pegajosa. El degradado del borde evita el corte duro cuando el
+   contenido pasa por debajo. */
+header{display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap;
+  position:sticky;top:0;z-index:5;background:var(--bg);
+  padding:var(--s4) 0 var(--s3);margin-bottom:var(--s4);
+  border-bottom:1px solid var(--line)}
+h1{font-size:var(--t-lg);margin:0;font-weight:640;letter-spacing:-.01em}
+h1 span{color:var(--accent)}
+.live{display:inline-flex;align-items:center;gap:var(--s2);font-size:var(--t-sm);
+  font-weight:600;padding:var(--s1) var(--s3);border-radius:999px;
+  border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--dim);flex:none}
+.dot.on{background:var(--ok);animation:pulse 1.8s ease-in-out infinite}
+.dot.err{background:var(--bad)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+/* Un punto que late sin parar es exactamente lo que esta consulta existe para
+   apagar; el color por sí solo ya distingue los tres estados. */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;transition-duration:.01ms !important}
+}
+.ago{margin-left:auto;font-size:var(--t-xs);color:var(--dim);
+  font-variant-numeric:tabular-nums}
 
-<div style="display:flex;align-items:center;gap:16px;background:#fff;border:1px solid #e6e6e6;border-radius:14px;padding:14px 18px;margin-bottom:20px;flex-wrap:wrap"><button id="run-btn" onclick="runSeobastian()" style="background:#1A4D2E;color:#fff;border:none;border-radius:9px;padding:10px 22px;font-size:14px;font-weight:600;cursor:pointer">▶ Ejecutar ahora</button><div style="flex:1;min-width:200px"><div id="run-status" style="font-size:12px;color:#6b6b6b">Cargando estado…</div></div></div>
-<div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap"><div style="flex:1;min-width:140px;background:#fff;border:1px solid #e6e6e6;border-radius:14px;padding:16px;text-align:center"><div style="font-size:32px;font-weight:700;color:#6b6b6b;line-height:1">0</div><div style="font-size:13px;color:#1d1d1f;margin-top:4px">Para aprobar (PRs)</div><div style="font-size:11px;color:#9a9a9a;margin-top:2px">requieren tu OK</div></div><div style="flex:1;min-width:140px;background:#fff;border:1px solid #e6e6e6;border-radius:14px;padding:16px;text-align:center"><div style="font-size:32px;font-weight:700;color:#B8860B;line-height:1">526</div><div style="font-size:13px;color:#1d1d1f;margin-top:4px">Encontrado</div><div style="font-size:11px;color:#9a9a9a;margin-top:2px">sin hacer todavía</div></div><div style="flex:1;min-width:140px;background:#fff;border:1px solid #e6e6e6;border-radius:14px;padding:16px;text-align:center"><div style="font-size:32px;font-weight:700;color:#1A4D2E;line-height:1">1363</div><div style="font-size:13px;color:#1d1d1f;margin-top:4px">Ya en producción</div><div style="font-size:11px;color:#9a9a9a;margin-top:2px">hecho y funcionando</div></div></div>
-<div style="background:#f0f7f4;border:1px solid #b2dfcd;border-radius:14px;padding:18px 20px;margin-bottom:16px"><h2 style="font-size:15px;font-weight:700;margin:0 0 14px;color:#1d1d1f">🎉 Nada que aprobar</h2><p style="color:#1A4D2E;font-size:13px;margin:0">El agente no tiene cambios pendientes de tu aprobación.</p></div>
-<div style="margin-bottom:16px"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px"><span style="font-size:13px;font-weight:600;padding:6px 12px;border-radius:20px;background:#e7f4ea;color:#1A4D2E;white-space:nowrap">✅ Google nos rastrea bien</span><span style="font-size:13px;font-weight:600;padding:6px 12px;border-radius:20px;background:#fde7e7;color:#b3261e;white-space:nowrap">🔴 160 URLs sin indexar</span><span style="font-size:13px;font-weight:600;padding:6px 12px;border-radius:20px;background:#fde7e7;color:#b3261e;white-space:nowrap">🔴 Pocas keywords en página 1</span></div></div>
-<div style="background:#fff;border:1px solid #e6e6e6;border-radius:14px;padding:18px 20px;margin-bottom:16px"><h2 style="font-size:15px;font-weight:700;margin:0 0 14px;color:#1d1d1f">🔍 Lo que el agente encontró (50 hallazgos)</h2><ul style="list-style:none;padding:0;margin:0"><li style="padding:7px 0;border-bottom:1px solid #f5f5f5;font-size:13px"><span style="font-size:10px;background:#fde7e7;color:#b3261e;border-radius:5px;padding:2px 6px;margin-right:6px;font-weight:700">⚠ Recuperar tráfico</span>Decaimiento (posición): 4→2 clics, pos 9.8→24.2 — https://lazar.golf/e</li><li style="padding:7px 0;border-bottom:1px solid #f5f5f5;font-size:13px"><span style="font-size:10px;background:#fde7e7;color:#b3261e;border-radius:5px;padding:2px 6px;margin-right:6px;font-weight:700">⚠ Links internos</span>91 orphaned golfletters are invisible to crawlers and PageRank flow</li><li style="padding:7px 0;border-bottom:1px solid #f5f5f5;font-size:13px"><span style="font-size:10px;background:#fde7e7;color:#b3261e;border-radius:5px;padding:2px 6px;margin-right:6px;font-weight:700">⚠ Links internos</span>Highest-traffic commercial page (rules app comparison) is not linked f</li><li style="padding:7px 0;border-bottom:1px solid #f5f5f5;font-size:13px"><span style="font-size:10px;background:#fde7e7;color:#b3261e;border-radius:5px;padding:2px 6px;margin-right:6px;font-weight:700">⚠ Links internos</span>Spanish formats hub ranks for 'diferencia entre stroke play y medal pl</li><li style="padding:7px 0;border-bottom:1px solid #f5f5f5;font-size:13px"><span style="font-size:10px;background:#fde7e7;color:#b3261e;border-radius:5px;padding:2px 6px;margin-right:6px;font-weight:700">⚠ No indexada</span>«anchoring-club-against-forearm-or-stomach» — Google no la conoce</li><li style="padding:7px 0;border-bottom:1px solid #f5f5f5;font-size:13px"><span style="font-size:10px;background:#fde7e7;color:#b3261e;border-radius:5px;padding:2px 6px;margin-right:6px;font-weight:700">⚠ No indexada</span>«anchoring-the-club-against-my-body-during-a-stroke» — Google no la co</li><li style="padding:7px 0;border-bottom:1px solid #f5f5f5;font-size:13px"><span style="font-size:10px;background:#f0f0f0;color:#555;border-radius:5px;padding:2px 6px;margin-right:6px">Subir en Google</span>Striking distance: pos 8.6, 617 impr — https://lazar.golf/es/blog/que-</li><li style="padding:7px 0;border-bottom:1px solid #f5f5f5;font-size:13px"><span style="font-size:10px;background:#f0f0f0;color:#555;border-radius:5px;padding:2px 6px;margin-right:6px">Subir en Google</span>Striking distance: pos 9.8, 315 impr — https://lazar.golf/</li><li style="padding:7px 0;border-bottom:1px solid #f5f5f5;font-size:13px"><span style="font-size:10px;background:#f0f0f0;color:#555;border-radius:5px;padding:2px 6px;margin-right:6px">Subir en Google</span>Striking distance: pos 6.6, 192 impr — https://lazar.golf/es/blog/el-g</li><li style="padding:7px 0;border-bottom:1px solid #f5f5f5;font-size:13px"><span style="font-size:10px;background:#f0f0f0;color:#555;border-radius:5px;padding:2px 6px;margin-right:6px">Subir en Google</span>Striking distance: pos 9.4, 175 impr — https://lazar.golf/es/blog/regl</li><li style="padding:7px 0;border-bottom:1px solid #f5f5f5;font-size:13px"><span style="font-size:10px;background:#f0f0f0;color:#555;border-radius:5px;padding:2px 6px;margin-right:6px">Subir en Google</span>Striking distance: pos 10.8, 606 impr — https://lazar.golf/es/formatos</li><li style="padding:7px 0;border-bottom:1px solid #f5f5f5;font-size:13px"><span style="font-size:10px;background:#f0f0f0;color:#555;border-radius:5px;padding:2px 6px;margin-right:6px">Subir en Google</span>Striking distance: pos 8.9, 159 impr — https://lazar.golf/es/blog/mini</li><li style="font-size:12px;color:#9a9a9a;padding:6px 0">…y 38 más en el backlog</li></ul></div>
-<div style="background:#fff;border:1px solid #e6e6e6;border-radius:14px;padding:18px 20px;margin-bottom:16px"><h2 style="font-size:15px;font-weight:700;margin:0 0 14px;color:#1d1d1f">🎯 Posición en Google</h2><table style="border-collapse:collapse;width:100%"><tr style="background:#f5f5f5"><th style="padding:5px 8px;text-align:left;font-size:12px;color:#6b6b6b">Búsqueda</th><th style="padding:5px 8px;text-align:left;font-size:12px;color:#6b6b6b">Posición</th><th style="padding:5px 8px;text-align:right;font-size:12px;color:#6b6b6b">Visibilidad</th></tr><tr><td style='padding:6px 8px;font-size:13px'>reglas de golf</td><td style='padding:6px 8px'><b style="color:#1A4D2E">🟢 3</b></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>4/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>reglas básicas de golf</td><td style='padding:6px 8px'><span style="color:#6b6b6b">No apareces</span></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>0/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>bola perdida</td><td style='padding:6px 8px'><span style="color:#6b6b6b">No apareces</span></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>0/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>tiempo para buscar una bola</td><td style='padding:6px 8px'><span style="color:#6b6b6b">No apareces</span></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>0/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>alivio sin penalización</td><td style='padding:6px 8px'><span style="color:#6b6b6b">No apareces</span></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>0/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>áreas de penalización</td><td style='padding:6px 8px'><span style="color:#6b6b6b">No apareces</span></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>0/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>reglas golf app</td><td style='padding:6px 8px'><span style="color:#6b6b6b">No apareces</span></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>0/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>app de reglas de golf</td><td style='padding:6px 8px'><span style="color:#6b6b6b">No apareces</span></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>0/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>cual es el handicap mas alto en golf</td><td style='padding:6px 8px'><span style="color:#6b6b6b">No apareces</span></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>0/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>modalidad stroke play golf</td><td style='padding:6px 8px'><span style="color:#6b6b6b">No apareces</span></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>0/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>como bajar el handicap de golf</td><td style='padding:6px 8px'><b style="color:#b3261e">🔴 42</b></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>4/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>golf rules</td><td style='padding:6px 8px'><b style="color:#B8860B">🟡 9</b></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>14/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>golf rules for beginners</td><td style='padding:6px 8px'><span style="color:#6b6b6b">No apareces</span></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>0/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>lost ball rule</td><td style='padding:6px 8px'><span style="color:#6b6b6b">No apareces</span></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>0/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>penalty area rules</td><td style='padding:6px 8px'><span style="color:#6b6b6b">No apareces</span></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>0/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>rule 17 golf</td><td style='padding:6px 8px'><span style="color:#6b6b6b">No apareces</span></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>0/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>free relief golf</td><td style='padding:6px 8px'><span style="color:#6b6b6b">No apareces</span></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>0/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>maximum handicap</td><td style='padding:6px 8px'><b style="color:#B8860B">🟡 8</b></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>4/mes</td></tr><tr><td style='padding:6px 8px;font-size:13px'>golf rules app</td><td style='padding:6px 8px'><b style="color:#B8860B">🟡 9</b></td><td style='padding:6px 8px;text-align:right;color:#6b6b6b;font-size:12px'>59/mes</td></tr></table><p style="font-size:11px;color:#9a9a9a;margin-top:4px">🟢 Top 3 · 🟡 Página 1 · 🔴 Página 2+. Datos a 21 Aug.</p></div>
-<div style="background:#fff;border:1px solid #e6e6e6;border-radius:14px;padding:18px 20px;margin-bottom:16px"><h2 style="font-size:15px;font-weight:700;margin:0 0 14px;color:#1d1d1f">📈 Impacto medido</h2><table style="border-collapse:collapse;width:100%"><tr style="background:#f5f5f5"><th style="padding:5px 8px;text-align:left;font-size:12px;color:#6b6b6b">Tipo</th><th style="padding:5px 8px;text-align:right;font-size:12px;color:#6b6b6b">Cambios</th><th style="padding:5px 8px;text-align:right;font-size:12px;color:#6b6b6b">Posición</th><th style="padding:5px 8px;text-align:right;font-size:12px;color:#6b6b6b">Clics</th></tr><tr><td style="padding:6px 8px;font-size:13px">Links rotos</td><td style="padding:6px 8px;text-align:right;font-size:13px">29</td><td style="padding:6px 8px;text-align:right"><span style="color:#6b6b6b;font-weight:600">▲ 0.0</span></td><td style="padding:6px 8px;text-align:right"><span style="color:#6b6b6b;font-weight:600">▲ 0.0</span></td></tr><tr><td style="padding:6px 8px;font-size:13px">Páginas que compiten</td><td style="padding:6px 8px;text-align:right;font-size:13px">2</td><td style="padding:6px 8px;text-align:right"><span style="color:#1A4D2E;font-weight:600">▼ 27.2</span></td><td style="padding:6px 8px;text-align:right"><span style="color:#1A4D2E;font-weight:600">▲ 0.5</span></td></tr><tr><td style="padding:6px 8px;font-size:13px">Recuperar tráfico</td><td style="padding:6px 8px;text-align:right;font-size:13px">1</td><td style="padding:6px 8px;text-align:right"><span style="color:#1A4D2E;font-weight:600">▼ 32.0</span></td><td style="padding:6px 8px;text-align:right"><span style="color:#6b6b6b;font-weight:600">▲ 0.0</span></td></tr><tr><td style="padding:6px 8px;font-size:13px">Página nueva</td><td style="padding:6px 8px;text-align:right;font-size:13px">4</td><td style="padding:6px 8px;text-align:right"><span style="color:#b3261e;font-weight:600">▲ 25.8</span></td><td style="padding:6px 8px;text-align:right"><span style="color:#1A4D2E;font-weight:600">▲ 0.2</span></td></tr><tr><td style="padding:6px 8px;font-size:13px">Citación en IA</td><td style="padding:6px 8px;text-align:right;font-size:13px">8</td><td style="padding:6px 8px;text-align:right"><span style="color:#1A4D2E;font-weight:600">▼ 3.4</span></td><td style="padding:6px 8px;text-align:right"><span style="color:#1A4D2E;font-weight:600">▲ 1.8</span></td></tr><tr><td style="padding:6px 8px;font-size:13px">Traducción ES↔EN</td><td style="padding:6px 8px;text-align:right;font-size:13px">7</td><td style="padding:6px 8px;text-align:right"><span style="color:#6b6b6b;font-weight:600">▲ 0.0</span></td><td style="padding:6px 8px;text-align:right"><span style="color:#6b6b6b;font-weight:600">▲ 0.0</span></td></tr><tr><td style="padding:6px 8px;font-size:13px">No indexada</td><td style="padding:6px 8px;text-align:right;font-size:13px">51</td><td style="padding:6px 8px;text-align:right"><span style="color:#b3261e;font-weight:600">▲ 12.0</span></td><td style="padding:6px 8px;text-align:right"><span style="color:#1A4D2E;font-weight:600">▲ 0.2</span></td></tr><tr><td style="padding:6px 8px;font-size:13px">Links internos</td><td style="padding:6px 8px;text-align:right;font-size:13px">7</td><td style="padding:6px 8px;text-align:right"><span style="color:#b3261e;font-weight:600">▲ 10.1</span></td><td style="padding:6px 8px;text-align:right"><span style="color:#1A4D2E;font-weight:600">▲ 0.9</span></td></tr><tr><td style="padding:6px 8px;font-size:13px">Título / descripción</td><td style="padding:6px 8px;text-align:right;font-size:13px">218</td><td style="padding:6px 8px;text-align:right"><span style="color:#b3261e;font-weight:600">▲ 13.0</span></td><td style="padding:6px 8px;text-align:right"><span style="color:#1A4D2E;font-weight:600">▲ 0.1</span></td></tr><tr><td style="padding:6px 8px;font-size:13px">Subir en Google</td><td style="padding:6px 8px;text-align:right;font-size:13px">40</td><td style="padding:6px 8px;text-align:right"><span style="color:#1A4D2E;font-weight:600">▼ 1.6</span></td><td style="padding:6px 8px;text-align:right"><span style="color:#1A4D2E;font-weight:600">▲ 1.6</span></td></tr></table><p style="font-size:11px;color:#9a9a9a;margin-top:4px">▼ posición = subió en Google ✓ &nbsp;·&nbsp; ▲ posición = bajó ✗</p></div>
-<div style="background:#fff;border:1px solid #e6e6e6;border-radius:14px;padding:18px 20px;margin-bottom:16px"><h2 style="font-size:15px;font-weight:700;margin:0 0 14px;color:#1d1d1f">✅ Hecho recientemente</h2><ul style="list-style:none;padding:0;margin:0"><li style="padding:6px 0;border-bottom:1px solid #f5f5f5;font-size:13px">[ES] ¿Tengo alivio gratis si mi bola está empotrada en el fairway? <span style="font-size:10px;background:#e7f4ea;color:#1A4D2E;border-radius:5px;padding:2px 6px">Situation</span> <a href="https://github.com/okuspocus/lazar/pull/447" target="_blank" style="color:#1565c0;font-size:11px">PR</a></li><li style="padding:6px 0;border-bottom:1px solid #f5f5f5;font-size:13px">[ES] ¿Qué hago si mi bola está empotrada en un bunker? <span style="font-size:10px;background:#e7f4ea;color:#1A4D2E;border-radius:5px;padding:2px 6px">Situation</span> <a href="https://github.com/okuspocus/lazar/pull/447" target="_blank" style="color:#1565c0;font-size:11px">PR</a></li><li style="padding:6px 0;border-bottom:1px solid #f5f5f5;font-size:13px">[ES] Bola en árbol: punto de referencia para alivio lateral <span style="font-size:10px;background:#e7f4ea;color:#1A4D2E;border-radius:5px;padding:2px 6px">Situation</span> <a href="https://github.com/okuspocus/lazar/pull/447" target="_blank" style="color:#1565c0;font-size:11px">PR</a></li><li style="padding:6px 0;border-bottom:1px solid #f5f5f5;font-size:13px">[ES] ¿Está permitido hacer putts o chips cerca del tee de salida antes de jugar? <span style="font-size:10px;background:#e7f4ea;color:#1A4D2E;border-radius:5px;padding:2px 6px">Situation</span> <a href="https://github.com/okuspocus/lazar/pull/447" target="_blank" style="color:#1565c0;font-size:11px">PR</a></li><li style="padding:6px 0;border-bottom:1px solid #f5f5f5;font-size:13px">[ES] Un espectador me hace sombra en la bola, ¿puedo pedirle que se mueva? <span style="font-size:10px;background:#e7f4ea;color:#1A4D2E;border-radius:5px;padding:2px 6px">Situation</span> <a href="https://github.com/okuspocus/lazar/pull/447" target="_blank" style="color:#1565c0;font-size:11px">PR</a></li><li style="padding:6px 0;border-bottom:1px solid #f5f5f5;font-size:13px">[ES] ¿Qué hago si encuentro mi bola después del tiempo de búsqueda y no era cono <span style="font-size:10px;background:#e7f4ea;color:#1A4D2E;border-radius:5px;padding:2px 6px">Situation</span> <a href="https://github.com/okuspocus/lazar/pull/447" target="_blank" style="color:#1565c0;font-size:11px">PR</a></li><li style="padding:6px 0;border-bottom:1px solid #f5f5f5;font-size:13px">[ES] Bola en zona de juego prohibido dentro de área de penalización <span style="font-size:10px;background:#e7f4ea;color:#1A4D2E;border-radius:5px;padding:2px 6px">Situation</span> <a href="https://github.com/okuspocus/lazar/pull/447" target="_blank" style="color:#1565c0;font-size:11px">PR</a></li><li style="padding:6px 0;border-bottom:1px solid #f5f5f5;font-size:13px">[ES] Dropar en el área de penalización por golpe y distancia y luego arrepentirm <span style="font-size:10px;background:#e7f4ea;color:#1A4D2E;border-radius:5px;padding:2px 6px">Situation</span> <a href="https://github.com/okuspocus/lazar/pull/447" target="_blank" style="color:#1565c0;font-size:11px">PR</a></li><li style="padding:6px 0;border-bottom:1px solid #f5f5f5;font-size:13px">[ES] ¿Cómo sé dónde cruzó mi bola el margen del área de penalización para dropar <span style="font-size:10px;background:#e7f4ea;color:#1A4D2E;border-radius:5px;padding:2px 6px">Situation</span> <a href="https://github.com/okuspocus/lazar/pull/447" target="_blank" style="color:#1565c0;font-size:11px">PR</a></li><li style="padding:6px 0;border-bottom:1px solid #f5f5f5;font-size:13px">[ES] Mi bola está en un área de penalización: ¿la juego como está o me alivio co <span style="font-size:10px;background:#e7f4ea;color:#1A4D2E;border-radius:5px;padding:2px 6px">Situation</span> <a href="https://github.com/okuspocus/lazar/pull/447" target="_blank" style="color:#1565c0;font-size:11px">PR</a></li></ul></div>
+/* Barra lateral + la actividad como protagonista. La rejilla `auto-fit`
+   anterior repartía todo a lo ancho: «Hoy» quedaba con un hueco muerto bajo
+   las barras, «Modelos» solo en su fila, y el feed —lo que se venía a ver— al
+   fondo del todo. */
+.grid{display:grid;gap:var(--s3);align-items:start;
+  grid-template-columns:minmax(280px,340px) minmax(0,1fr)}
+.side{display:flex;flex-direction:column;gap:var(--s3);min-width:0}
+.main{min-width:0}
+@media(max-width:860px){
+  .grid{grid-template-columns:1fr}
+  .main{order:-1}                 /* en móvil, la actividad primero */
+}
 
-<footer>Generado 2026-08-21 07:02 · data/backlog.sqlite</footer>
+.card{background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:var(--s4);box-shadow:var(--shadow)}
+.card h2{font-size:var(--t-xs);text-transform:uppercase;letter-spacing:.07em;
+  color:var(--dim);margin:0 0 var(--s3);font-weight:650}
+
+.kpis{display:flex;gap:var(--s6);flex-wrap:wrap}
+.kpi b{display:block;font-size:var(--t-xl);line-height:1.1;font-weight:640;
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.kpi small{color:var(--dim);font-size:var(--t-xs)}
+
+/* Barras de progreso: cuota y mercados comparten la pista. */
+.q,.mk{margin-bottom:var(--s3)}
+.q:last-child,.mk:last-child{margin-bottom:0}
+.q .row,.mk .row{display:flex;justify-content:space-between;align-items:baseline;
+  gap:var(--s2);font-size:var(--t-sm);margin-bottom:var(--s1)}
+.q .row i,.mk i{font-style:normal;color:var(--dim);font-size:var(--t-xs);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.mk .code{font-weight:700;letter-spacing:.04em}
+.track{height:6px;border-radius:99px;background:var(--bar);overflow:hidden}
+.fill{height:100%;border-radius:99px;background:var(--ok);
+  transition:width .45s cubic-bezier(.4,0,.2,1)}
+.fill.warn{background:var(--warn)} .fill.full{background:var(--bad)}
+.mk .fill{background:var(--accent)}
+
+table{width:100%;border-collapse:collapse;font-size:var(--t-sm)}
+td{padding:var(--s2) 0;border-bottom:1px solid var(--line);vertical-align:baseline}
+tr:last-child td{border-bottom:0}
+td.n{text-align:right;color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.feed{max-height:min(74vh,780px);overflow-y:auto;overscroll-behavior:contain;
+  margin-right:calc(var(--s1) * -1);padding-right:var(--s1)}
+.ev{display:flex;gap:var(--s3);padding:var(--s2) 0;border-bottom:1px solid var(--line);
+  font-size:var(--t-sm)}
+.ev:last-child{border-bottom:0}
+.ev .t{color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap;
+  font-size:var(--t-xs);padding-top:2px;min-width:2.9em}
+.ev .b{flex:1;min-width:0}
+.ev .w{color:var(--dim);font-size:var(--t-xs);display:block;margin-top:2px;
+  overflow-wrap:anywhere}
+.ev code{font-size:var(--t-xs);background:var(--neutral-bg);padding:1px var(--s1);
+  border-radius:var(--r-sm);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+/* Relleno tenue, no borde de color: a 11 px un contorno se ve sucio y compite
+   con el texto que lo rodea. */
+.tag{display:inline-block;padding:1px var(--s2);border-radius:var(--r-sm);
+  font-size:var(--t-xs);font-weight:650;background:var(--neutral-bg);color:var(--dim)}
+.tag.ok{background:var(--ok-bg);color:var(--ok)}
+.tag.bad{background:var(--bad-bg);color:var(--bad)}
+.tag.warn{background:var(--warn-bg);color:var(--warn)}
+
+.note{color:var(--dim);font-size:var(--t-xs);margin:var(--s3) 0 0;line-height:1.5}
+.hint{float:right;font-weight:500;text-transform:none;letter-spacing:0;
+  font-size:var(--t-xs);color:var(--dim)}
+.empty{color:var(--dim);font-size:var(--t-sm);padding:var(--s1) 0}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:var(--r-sm)}
+
+@media(max-width:560px){
+  /* El titular NO encoge aquí. Encogía a 17 px, un sexto tamaño que la escala
+     de arriba dice explícitamente que no existe, y no compraba nada: «Seobastian
+     · lazar» ocupa ~180 de los 336 px útiles de un móvil de 360, así que la
+     insignia sigue cabiendo al lado y `.ago` envuelve igual que envolvía. Bajarlo
+     al siguiente escalón real (--t-md) lo dejaría del tamaño del cuerpo de
+     texto, o sea sin jerarquía. */
+  .wrap{padding:0 var(--s3) var(--s6)}
+  .kpis{gap:var(--s5)}
+}
+</style></head><body>
+<div class="wrap">
+  <header>
+    <h1>Seobastian <span aria-hidden="true">·</span> lazar</h1>
+    <!-- `aria-live` porque la página se refresca sola: sin esto un lector de
+         pantalla anuncia el estado una vez, al cargar, y nunca más se entera de
+         que un pase arrancó o se cayó. `polite` para no interrumpir. -->
+    <span class="live" aria-live="polite">
+      <span class="dot" id="dot" aria-hidden="true"></span><span id="live">…</span></span>
+    <span class="ago" id="ago" aria-live="polite"></span>
+  </header>
+  <div class="grid">
+    <aside class="side" aria-label="Resumen del día">
+      <section class="card" aria-labelledby="h-hoy">
+        <h2 id="h-hoy">Hoy</h2>
+        <div class="kpis" id="today"></div>
+        <div id="quota" style="margin-top:var(--s4)"></div>
+      </section>
+      <section class="card" aria-labelledby="h-mk">
+        <h2 id="h-mk">Situaciones por mercado</h2><div id="langs"></div></section>
+      <section class="card" aria-labelledby="h-mo">
+        <h2 id="h-mo">Modelos hoy</h2>
+        <table><tbody id="models"></tbody></table><p class="note" id="rl"></p></section>
+      <section class="card" aria-labelledby="h-co">
+        <h2 id="h-co">Cola por tipo</h2><table><tbody id="queue"></tbody></table></section>
+    </aside>
+    <main class="main">
+      <section class="card" aria-labelledby="h-ac">
+        <h2 id="h-ac">Actividad <span class="hint" id="feedhint"></span></h2>
+        <!-- Desplazable con teclado: sin tabindex, un div con scroll propio es
+             inalcanzable sin ratón. -->
+        <div class="feed" id="feed" tabindex="0" role="log" aria-label="Actividad reciente"></div>
+      </section>
+    </main>
+  </div>
 </div>
+<script>window.__STATE__={"now": "2026-08-21T21:20:03+00:00", "site": "lazar", "running": null, "today": {"applied": 145, "by_type": {"situation": 64, "indexing": 81}, "quota": [{"type": "indexing", "used": 81, "total": 120, "left": 39, "pct": 68}, {"type": "situation", "used": 64, "total": 80, "left": 16, "pct": 80}]}, "last_run": {"ts": "2026-08-21T20:28:13+00:00", "applied": 18, "rejected": 0, "prod_ok": true}, "feed": [{"ts": "2026-08-21T20:27:43+00:00", "event": "applied", "type": "situation", "n": 18, "pr": "https://github.com/okuspocus/lazar/pull/453", "sha": "59d799d0"}, {"ts": "2026-08-21T19:19:55+00:00", "event": "locked", "type": null, "n": 0}, {"ts": "2026-08-21T19:11:30+00:00", "event": "applied", "type": "indexing", "n": 1, "pr": "https://github.com/okuspocus/lazar/pull/452", "sha": "6750d3b4"}, {"ts": "2026-08-21T16:40:59+00:00", "event": "applied", "type": "indexing", "n": 11, "pr": "https://github.com/okuspocus/lazar/pull/451", "sha": "95b6f6d1"}, {"ts": "2026-08-21T14:03:14+00:00", "event": "applied", "type": "indexing", "n": 15, "pr": "https://github.com/okuspocus/lazar/pull/450", "sha": "4aaa1bed"}, {"ts": "2026-08-21T13:27:41+00:00", "event": "applied", "type": "situation", "n": 8, "pr": "https://github.com/okuspocus/lazar/pull/449", "sha": "cca616cd"}, {"ts": "2026-08-21T11:01:57+00:00", "event": "rejected", "type": "indexing", "n": 13, "layer": "diff", "why": "el revisor LLM falló (Error code: 404) — se rechaza por seguridad"}, {"ts": "2026-08-21T10:35:27+00:00", "event": "rejected", "type": "situation", "n": 7, "layer": "facts", "why": "el verificador de hechos no pudo ejecutarse (Error code: 500 - {'error': {'message': 'Internal server error', 'type': 'Internal Server Error', 'code': 500}}) — "}, {"ts": "2026-08-21T09:21:26+00:00", "event": "applied", "type": "indexing", "n": 54, "pr": "https://github.com/okuspocus/lazar/pull/448", "sha": "9936082b"}, {"ts": "2026-08-21T07:21:51+00:00", "event": "rejected", "type": "situation", "n": 5, "layer": "diff", "why": "el revisor LLM falló (Error code: 404) — se rechaza por seguridad"}, {"ts": "2026-08-21T04:42:19+00:00", "event": "applied", "type": "situation", "n": 12, "pr": "https://github.com/okuspocus/lazar/pull/447", "sha": "8e71cf33"}, {"ts": "2026-08-21T02:12:38+00:00", "event": "applied", "type": "situation", "n": 26, "pr": "https://github.com/okuspocus/lazar/pull/446", "sha": "8962ff98"}, {"ts": "2026-08-20T22:44:26+00:00", "event": "applied", "type": "situation", "n": 36, "pr": "https://github.com/okuspocus/lazar/pull/445", "sha": "0da49294"}, {"ts": "2026-08-20T19:08:28+00:00", "event": "rejected", "type": "situation", "n": 1, "layer": "facts", "why": "content/situations/levante-mi-bola-creyendo-que-me-habian-concedido-el-golpe-hay-penaliza.mdx: «lastUpdatedDate: 2026-08-20\nrelatedRule:» (---\ntitle: \"¿Qué pasa"}, {"ts": "2026-08-20T16:13:12+00:00", "event": "applied", "type": "situation", "n": 1, "pr": "https://github.com/okuspocus/lazar/pull/444", "sha": "756caac8"}, {"ts": "2026-08-20T13:18:55+00:00", "event": "applied", "type": "situation", "n": 1, "pr": "https://github.com/okuspocus/lazar/pull/443", "sha": "1c5a59fc"}, {"ts": "2026-08-20T10:36:49+00:00", "event": "applied", "type": "indexing", "n": 4, "pr": "https://github.com/okuspocus/lazar/pull/442", "sha": "0d8aa265"}, {"ts": "2026-08-20T10:24:20+00:00", "event": "applied", "type": "situation", "n": 2, "pr": "https://github.com/okuspocus/lazar/pull/441", "sha": "0af87605"}], "models": {"by_model": [{"model": "nvidia/nemotron-3-ultra-550b-a55b", "requests": 1151, "rate_limited": 1, "errors": 3}, {"model": "nvidia/nemotron-3-super-120b-a12b", "requests": 159, "rate_limited": 0, "errors": 3}, {"model": "nvidia/nemotron-3-nano-30b-a3b", "requests": 125, "rate_limited": 0, "errors": 0}, {"model": "meta/llama-3.3-70b-instruct", "requests": 87, "rate_limited": 0, "errors": 1}], "rate_limited_total": 1}, "queue": {"by_type": [{"type": "situation", "n": 299}, {"type": "interlinking", "n": 94}, {"type": "striking_distance", "n": 53}, {"type": "competitor_gap", "n": 9}, {"type": "schema", "n": 6}, {"type": "content_decay", "n": 6}, {"type": "cannibalization", "n": 5}, {"type": "toxic_backlink", "n": 1}, {"type": "offpage", "n": 1}], "total": 474, "situations_by_lang": {"ES": {"queued": 134, "done": 178, "total": 312, "pct": 57}, "EN": {"queued": 103, "done": 43, "total": 146, "pct": 29}, "NL": {"queued": 62, "done": 18, "total": 80, "pct": 22}}, "situations_status": {"approved": 239, "dismissed": 32, "new": 299, "skipped": 316}}};</script>
 <script>
-async function runSeobastian() {
-  const btn = document.getElementById('run-btn');
-  const status = document.getElementById('run-status');
-  btn.disabled = true;
-  btn.textContent = 'Lanzando…';
-  status.textContent = '';
-  try {
-    const r = await fetch('/run', { method: 'POST' });
-    const d = await r.json();
-    status.textContent = d.msg || (d.ok ? 'Lanzado ✓' : 'Error — revisa la consola');
-    btn.textContent = d.ok ? '✅ Lanzado' : '⚠️ Error';
-    if (d.ok) setTimeout(loadStatus, 8000);
-  } catch(e) {
-    btn.textContent = '⚠️ Sin servidor local';
-    status.textContent = 'Ejecuta: cd ~/repos/seobastian && python scripts/serve.py';
-  }
-  setTimeout(() => { btn.disabled = false; btn.textContent = '▶ Ejecutar ahora'; }, 10000);
+const $=s=>document.querySelector(s);
+const pad=n=>String(n).padStart(2,'0');
+const hhmm=iso=>{const d=new Date(iso);return isNaN(d)?'--:--':pad(d.getHours())+':'+pad(d.getMinutes());};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+const LABEL={applied:'aplicado',rejected:'rechazado',reverted:'REVERTIDO',
+  capped:'techo alcanzado',error:'error',locked:'saltado (lock)',deferred:'pospuesto'};
+const TONE={applied:'ok',rejected:'bad',reverted:'bad',error:'bad',capped:'warn',
+  locked:'warn',deferred:'warn'};
+
+function quota(q){
+  if(!q.length) return '<div class="empty">sin cuotas configuradas</div>';
+  return q.map(x=>{
+    const cls = x.pct>=100?'full':x.pct>=85?'warn':'';
+    // Siempre «usadas de total». El contador del pase imprimía el RESTO con
+    // formato de consumo y hacía leer lo contrario de lo que ponía.
+    const left = x.left===null?'':` · quedan ${x.left}`;
+    return `<div class="q"><div class="row"><span>${esc(x.type)}</span>
+      <i>${x.used}/${x.total} usadas${left}</i></div>
+      <div class="track"><div class="fill ${cls}" style="width:${Math.min(100,x.pct)}%"></div></div></div>`;
+  }).join('');
 }
 
-async function loadStatus() {
-  const el = document.getElementById('run-status');
-  try {
-    const r = await fetch('/status');
-    if (!r.ok) { el.textContent = 'Servidor local no disponible.'; return; }
-    const d = await r.json();
-    if (!d || !d.running === undefined) { el.textContent = ''; return; }
-    if (d.running) {
-      el.innerHTML = '<span style="color:#1565c0">⟳ Ejecutando ahora…</span>';
-      setTimeout(loadStatus, 10000);
-    } else if (d.last_run) {
-      const ok = d.last_run.ok;
-      const when = d.last_run.finished_at || '';
-      el.innerHTML = `<span style="color:${ok?'#1A4D2E':'#b3261e'}">${ok?'✓ OK':'✗ Error'}</span> · último run: ${when}`;
-    }
-  } catch(e) {
-    el.textContent = 'Inicia el servidor: python scripts/serve.py';
+function lastRun(r){
+  // Sustituye al ✓ suelto: qué pasó, cuándo, y si producción quedó bien.
+  if(!r) return '';
+  const bad = r.prod_ok===false;
+  const est = bad ? '<span class="tag bad">producción rota</span>'
+            : r.prod_ok===true ? '<span class="tag ok">producción verificada</span>'
+            : '<span class="tag">sin verificar</span>';
+  return `<p class="note">Último pase ${hhmm(r.ts)} · ${r.applied||0} aplicadas`
+       + `${r.rejected?` · ${r.rejected} rechazadas`:''} · ${est}</p>`;
+}
+
+function feed(items){
+  if(!items.length) return '<div class="empty">sin actividad en las últimas 36 h</div>';
+  return items.map(e=>{
+    const tone=TONE[e.event]||'', lab=LABEL[e.event]||e.event;
+    let body=`<span class="tag ${tone}">${esc(lab)}</span> ${esc(e.type||'')}`;
+    if(e.n) body+=` · ${e.n} cambio${e.n===1?'':'s'}`;
+    if(e.sha) body+=` · <code>${esc(e.sha)}</code>`;
+    let why='';
+    if(e.layer) why=`capa ${esc(e.layer)}: ${esc(e.why||'')}`;
+    else if(e.why) why=esc(e.why);
+    return `<div class="ev"><span class="t">${hhmm(e.ts)}</span><span class="b">${body}
+      ${why?`<span class="w">${why}</span>`:''}</span></div>`;
+  }).join('');
+}
+
+function render(s){
+  const r=s.running;
+  $('#dot').className='dot'+(r?' on':'');
+  $('#live').textContent = r
+    ? `${r.owner||'pase'} trabajando · ${r.minutes??'?'} min`
+    : 'en reposo';
+  $('#ago').textContent='actualizado '+hhmm(s.now);
+
+  // Dos cifras, no tres. El tercer KPI era un ✓ suelto bajo la palabra
+  // «producción», que no decía ni qué se verificó ni cuándo; ahora eso vive en
+  // la línea de estado del último pase, con su hora.
+  $('#today').innerHTML=`<div class="kpi"><b>${s.today.applied}</b><small>aplicadas hoy</small></div>`
+    + `<div class="kpi"><b>${s.queue.total}</b><small>en cola</small></div>`;
+  $('#quota').innerHTML=quota(s.today.quota)+lastRun(s.last_run);
+  $('#feed').innerHTML=feed(s.feed);
+  $('#feedhint').textContent=s.feed.length?`últimas ${s.feed.length} · 36 h`:'';
+
+  const L=s.queue.situations_by_lang||{};
+  $('#langs').innerHTML=Object.keys(L).length
+    ? Object.entries(L).map(([k,v])=>{
+        const w=v.total?Math.round(100*v.done/v.total):0;
+        return `<div class="mk"><div class="row"><span class="code">${esc(k)}</span>
+          <i>${v.done} de ${v.total} publicadas</i></div>
+          <div class="track"><div class="fill" style="width:${w}%"></div></div></div>`;
+      }).join('')
+    : '<div class="empty">sin situaciones inventariadas</div>';
+
+  $('#queue').innerHTML=s.queue.by_type.map(t=>
+    `<tr><td>${esc(t.type)}</td><td class="n">${t.n}</td></tr>`).join('')
+    || '<tr><td class="empty">cola vacía</td></tr>';
+
+  const m=s.models;
+  $('#models').innerHTML=m.by_model.map(x=>{
+    // «1 429» se leía como el número 1429. Ahora se dice en palabras.
+    const lim = x.rate_limited
+      ? ` <span class="tag warn">${x.rate_limited} limitada${x.rate_limited===1?'':'s'}</span>` : '';
+    return `<tr><td>${esc(x.model.split('/').pop())}</td>`
+      + `<td class="n">${x.requests}${lim}</td></tr>`;
+  }).join('')||'<tr><td class="empty">sin llamadas hoy</td></tr>';
+  $('#rl').textContent = m.rate_limited_total
+    ? `${m.rate_limited_total} petición(es) rechazadas por cuota hoy. Si ves rechazos en cadena, empieza por aquí: cuando el proveedor aprieta, el síntoma parece culpa del guardián.`
+    : 'Sin limitación de cuota hoy.';
+}
+
+async function tick(){
+  try{
+    const r=await fetch('/api/state',{cache:'no-store'});
+    if(!r.ok) throw new Error(r.status);
+    render(await r.json());
+    $('#dot').classList.remove('err');
+  }catch(e){
+    // Nunca dejar números viejos pasando por actuales: ese era el defecto del
+    // panel anterior, que a media tarde contaba la noche anterior.
+    $('#dot').className='dot err';
+    $('#live').textContent='sin conexión con el piloto';
+    $('#ago').textContent='datos del '+hhmm(window.__STATE__.now);
   }
 }
-window.addEventListener('load', loadStatus);
-setInterval(loadStatus, 30000);
+render(window.__STATE__);
+if(location.protocol!=='file:') { tick(); setInterval(tick,5000); }
 </script>
 </body></html>
