@@ -103,6 +103,14 @@ h1 span{color:var(--accent)}
 .q .row i,.mk i{font-style:normal;color:var(--dim);font-size:var(--t-xs);
   font-variant-numeric:tabular-nums;white-space:nowrap}
 .mk .code{font-weight:700;letter-spacing:.04em}
+/* Una ficha por agente: nombre arriba, cifras debajo con su unidad. */
+.ag{padding:var(--s2) 0;border-bottom:1px solid var(--line)}
+.ag:last-child{border-bottom:0}
+.ag .row{display:flex;align-items:baseline;gap:var(--s2);
+  justify-content:flex-start;margin-bottom:1px}
+.ag b{font-weight:640}
+.ag i{font-style:normal;color:var(--dim);font-size:var(--t-xs);
+  font-variant-numeric:tabular-nums}
 .track{height:6px;border-radius:99px;background:var(--bar);overflow:hidden}
 .fill{height:100%;border-radius:99px;background:var(--ok);
   transition:width .45s cubic-bezier(.4,0,.2,1)}
@@ -176,8 +184,11 @@ a{color:inherit}
       </section>
       <section class="card" aria-labelledby="h-mk">
         <h2 id="h-mk">Situaciones por mercado</h2><div id="langs"></div></section>
+      <section class="card" aria-labelledby="h-ag">
+        <h2 id="h-ag">Qué ha hecho cada agente hoy</h2>
+        <div id="agentes"></div></section>
       <section class="card" aria-labelledby="h-mo">
-        <h2 id="h-mo">Modelos hoy</h2>
+        <h2 id="h-mo">Modelos hoy <span class="hint">llam · tokens</span></h2>
         <table><tbody id="models"></tbody></table><p class="note" id="rl"></p></section>
       <section class="card" aria-labelledby="h-co">
         <h2 id="h-co">Cola por tipo</h2><table><tbody id="queue"></tbody></table></section>
@@ -192,9 +203,19 @@ a{color:inherit}
     </main>
   </div>
 </div>
-<script>window.__STATE__={"now": "2026-08-23T05:03:24+00:00", "site": "lazar", "running": null, "today": {"applied": 32, "by_type": {"situation": 32}, "quota": [{"type": "indexing", "used": 0, "total": 120, "left": 120, "pct": 0}, {"type": "situation", "used": 32, "total": 80, "left": 48, "pct": 40}]}, "last_run": {"ts": "2026-08-23T04:08:57+00:00", "applied": 0, "rejected": 0, "prod_ok": null}, "feed": [{"ts": "2026-08-23T01:31:41+00:00", "event": "applied", "type": "situation", "n": 32, "pr": "https://github.com/okuspocus/lazar/pull/463", "sha": "7136ac5c"}, {"ts": "2026-08-22T22:59:01+00:00", "event": "applied", "type": "situation", "n": 59, "pr": "https://github.com/okuspocus/lazar/pull/462", "sha": "b1065ae8"}, {"ts": "2026-08-22T19:07:27+00:00", "event": "rejected", "type": "situation", "n": 2, "layer": "facts", "why": "content/situations/puedo-usar-un-palo-no-conforme.mdx: «un palo» (---\ntitle: \"¿Puedo jugar con un palo que no cumple las especificaciones?\"\ncluster: \"bunker) — "}, {"ts": "2026-08-22T16:23:55+00:00", "event": "applied", "type": "indexing", "n": 4, "pr": "https://github.com/okuspocus/lazar/pull/461", "sha": "2ab5f129"}, {"ts": "2026-08-22T16:11:58+00:00", "event": "rejected", "type": "situation", "n": 2, "layer": "facts", "why": "content/situations/puedo-usar-un-palo-no-conforme.mdx: «un palo» (---\ntitle: \"¿Puedo usar un palo no conforme?\"\ncluster: \"bunkers\"\nlocation: \"anywhere\"\neven) — "}, {"ts": "2026-08-22T13:38:14+00:00", "event": "applied", "type": "indexing", "n": 9, "pr": "https://github.com/okuspocus/lazar/pull/460", "sha": "ba5de64b"}, {"ts": "2026-08-22T13:10:08+00:00", "event": "rejected", "type": "situation", "n": 2, "layer": "facts", "why": "content/situations/puedo-usar-un-palo-no-conforme.mdx: «un palo» (---\ntitle: \"¿Puedo usar un palo no conforme?\"\ncluster: \"bunkers\"\nlocation: \"anywhere\"\neven) — "}, {"ts": "2026-08-22T11:09:23+00:00", "event": "applied", "type": "indexing", "n": 18, "pr": "https://github.com/okuspocus/lazar/pull/459", "sha": "ae215d19"}, {"ts": "2026-08-22T10:10:18+00:00", "event": "rejected", "type": "situation", "n": 2, "layer": "facts", "why": "content/situations/puedo-usar-un-palo-no-conforme.mdx: «un palo» (---\ntitle: \"¿Puedo usar un palo no conforme?\"\ncluster: \"bunkers\"\nlocation: \"anywhere\"\neven) — "}, {"ts": "2026-08-22T09:58:09+00:00", "event": "applied", "type": "indexing", "n": 79, "pr": "https://github.com/okuspocus/lazar/pull/458", "sha": "84fd30b5"}, {"ts": "2026-08-22T07:23:00+00:00", "event": "applied", "type": "situation", "n": 3, "pr": "https://github.com/okuspocus/lazar/pull/457", "sha": "305a45c7"}, {"ts": "2026-08-22T04:40:29+00:00", "event": "applied", "type": "situation", "n": 19, "pr": "https://github.com/okuspocus/lazar/pull/456", "sha": "c62a7cb9"}, {"ts": "2026-08-22T02:48:31+00:00", "event": "applied", "type": "situation", "n": 56, "pr": "https://github.com/okuspocus/lazar/pull/455", "sha": "87f0d0ae"}, {"ts": "2026-08-21T23:54:55+00:00", "event": "applied", "type": "situation", "n": 40, "pr": "https://github.com/okuspocus/lazar/pull/454", "sha": "373f1b12"}, {"ts": "2026-08-21T20:27:43+00:00", "event": "applied", "type": "situation", "n": 18, "pr": "https://github.com/okuspocus/lazar/pull/453", "sha": "59d799d0"}, {"ts": "2026-08-21T19:19:55+00:00", "event": "locked", "type": null, "n": 0}, {"ts": "2026-08-21T19:11:30+00:00", "event": "applied", "type": "indexing", "n": 1, "pr": "https://github.com/okuspocus/lazar/pull/452", "sha": "6750d3b4"}], "models": {"by_model": [{"model": "nvidia/nemotron-3-nano-30b-a3b", "requests": 38, "rate_limited": 0, "errors": 1}, {"model": "nvidia/nemotron-3-ultra-550b-a55b", "requests": 36, "rate_limited": 0, "errors": 0}, {"model": "nvidia/nemotron-3-super-120b-a12b", "requests": 15, "rate_limited": 0, "errors": 0}, {"model": "openrouter:nvidia/nemotron-3.5-lightning:free", "requests": 2, "rate_limited": 0, "errors": 0}], "rate_limited_total": 0}, "queue": {"by_type": [{"type": "indexing", "n": 95}, {"type": "interlinking", "n": 94}, {"type": "striking_distance", "n": 53}, {"type": "competitor_gap", "n": 9}, {"type": "schema", "n": 6}, {"type": "content_decay", "n": 6}, {"type": "cannibalization", "n": 5}, {"type": "toxic_backlink", "n": 1}, {"type": "offpage", "n": 1}], "total": 270, "situations_by_lang": {"ES": {"queued": 0, "done": 280, "total": 280, "pct": 100}, "EN": {"queued": 0, "done": 100, "total": 100, "pct": 100}, "NL": {"queued": 0, "done": 68, "total": 68, "pct": 100}}, "situations_status": {"approved": 448, "dismissed": 33, "skipped": 405}}};</script>
+<script>window.__STATE__={"now": "2026-08-23T22:10:16+00:00", "site": "lazar", "running": {"owner": "autonomous", "pid": 2110999, "started": "2026-08-23T21:44:48+00:00", "minutes": 25}, "today": {"applied": 0, "by_type": {}, "quota": [{"type": "indexing", "used": 0, "total": 120, "left": 120, "pct": 0}, {"type": "situation", "used": 0, "total": 80, "left": 80, "pct": 0}]}, "last_run": {"ts": "2026-08-23T19:03:57+00:00", "applied": 0, "rejected": 0, "prod_ok": null}, "feed": [{"ts": "2026-08-23T22:00:02+00:00", "event": "locked", "type": null, "n": 0}, {"ts": "2026-08-23T13:11:05+00:00", "event": "applied", "type": "indexing", "n": 1, "pr": "https://github.com/okuspocus/lazar/pull/466", "sha": "baa75310"}, {"ts": "2026-08-23T10:18:05+00:00", "event": "applied", "type": "indexing", "n": 4, "pr": "https://github.com/okuspocus/lazar/pull/465", "sha": "038f07e0"}, {"ts": "2026-08-23T09:08:19+00:00", "event": "applied", "type": "indexing", "n": 61, "pr": "https://github.com/okuspocus/lazar/pull/464", "sha": "bf0cd92a"}, {"ts": "2026-08-23T01:31:41+00:00", "event": "applied", "type": "situation", "n": 32, "pr": "https://github.com/okuspocus/lazar/pull/463", "sha": "7136ac5c"}, {"ts": "2026-08-22T22:59:01+00:00", "event": "applied", "type": "situation", "n": 59, "pr": "https://github.com/okuspocus/lazar/pull/462", "sha": "b1065ae8"}, {"ts": "2026-08-22T19:07:27+00:00", "event": "rejected", "type": "situation", "n": 2, "layer": "facts", "why": "content/situations/puedo-usar-un-palo-no-conforme.mdx: «un palo» (---\ntitle: \"¿Puedo jugar con un palo que no cumple las especificaciones?\"\ncluster: \"bunker) — "}, {"ts": "2026-08-22T16:23:55+00:00", "event": "applied", "type": "indexing", "n": 4, "pr": "https://github.com/okuspocus/lazar/pull/461", "sha": "2ab5f129"}, {"ts": "2026-08-22T16:11:58+00:00", "event": "rejected", "type": "situation", "n": 2, "layer": "facts", "why": "content/situations/puedo-usar-un-palo-no-conforme.mdx: «un palo» (---\ntitle: \"¿Puedo usar un palo no conforme?\"\ncluster: \"bunkers\"\nlocation: \"anywhere\"\neven) — "}, {"ts": "2026-08-22T13:38:14+00:00", "event": "applied", "type": "indexing", "n": 9, "pr": "https://github.com/okuspocus/lazar/pull/460", "sha": "ba5de64b"}, {"ts": "2026-08-22T13:10:08+00:00", "event": "rejected", "type": "situation", "n": 2, "layer": "facts", "why": "content/situations/puedo-usar-un-palo-no-conforme.mdx: «un palo» (---\ntitle: \"¿Puedo usar un palo no conforme?\"\ncluster: \"bunkers\"\nlocation: \"anywhere\"\neven) — "}, {"ts": "2026-08-22T11:09:23+00:00", "event": "applied", "type": "indexing", "n": 18, "pr": "https://github.com/okuspocus/lazar/pull/459", "sha": "ae215d19"}, {"ts": "2026-08-22T10:10:18+00:00", "event": "rejected", "type": "situation", "n": 2, "layer": "facts", "why": "content/situations/puedo-usar-un-palo-no-conforme.mdx: «un palo» (---\ntitle: \"¿Puedo usar un palo no conforme?\"\ncluster: \"bunkers\"\nlocation: \"anywhere\"\neven) — "}], "models": {"by_model": [{"model": "nvidia/nemotron-3-ultra-550b-a55b", "requests": 847, "tokens": 7918137, "rate_limited": 0, "errors": 13}, {"model": "nvidia/nemotron-3-super-120b-a12b", "requests": 47, "tokens": 1301000, "rate_limited": 0, "errors": 0}, {"model": "nvidia/nemotron-3-nano-30b-a3b", "requests": 45, "tokens": 83959, "rate_limited": 0, "errors": 1}, {"model": "openrouter:nvidia/nemotron-3.5-lightning:free", "requests": 36, "tokens": 499454, "rate_limited": 0, "errors": 0}], "rate_limited_total": 0, "tokens_total": 9802550}, "agentes": {"por_agente": [], "tokens_total": 0, "paginas_total": 0}, "queue": {"by_type": [{"type": "interlinking", "n": 94}, {"type": "striking_distance", "n": 53}, {"type": "competitor_gap", "n": 9}, {"type": "schema", "n": 6}, {"type": "content_decay", "n": 6}, {"type": "cannibalization", "n": 2}, {"type": "toxic_backlink", "n": 1}, {"type": "offpage", "n": 1}], "total": 172, "situations_by_lang": {"ES": {"queued": 0, "done": 280, "total": 280, "pct": 100}, "EN": {"queued": 0, "done": 100, "total": 100, "pct": 100}, "NL": {"queued": 0, "done": 68, "total": 68, "pct": 100}}, "situations_status": {"approved": 448, "dismissed": 33, "skipped": 405}}};</script>
 <script>
 const $=s=>document.querySelector(s);
+// 7918137 no se lee. 7,9 M sí.
+const tok=n=>!n?'—':(n>=1e6?(n/1e6).toFixed(1).replace('.',',')+' M'
+                    :n>=1e3?Math.round(n/1e3)+' k':String(n));
+const TIPO_CORTO={situation:'situaciones', indexing:'indexación',
+  interlinking:'enlazado', striking_distance:'top 10', citability:'citabilidad',
+  faq_structure:'FAQ', fineprint:'letra pequeña', verb_fix:'títulos',
+  terminology:'terminología', hreflang:'idiomas', broken_link:'enlaces rotos',
+  content_decay:'páginas en caída', geo:'respuestas IA',
+  cannibalization:'canibalización', competitor_gap:'hueco competitivo',
+  content_gap:'páginas nuevas'};
 const pad=n=>String(n).padStart(2,'0');
 const hhmm=iso=>{const d=new Date(iso);return isNaN(d)?'--:--':pad(d.getHours())+':'+pad(d.getMinutes());};
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -280,8 +301,24 @@ function render(s){
     const lim = x.rate_limited
       ? ` <span class="tag warn">${x.rate_limited} limitada${x.rate_limited===1?'':'s'}</span>` : '';
     return `<tr><td>${esc(x.model.split('/').pop())}</td>`
-      + `<td class="n">${x.requests}${lim}</td></tr>`;
+      + `<td class="n">${x.requests}${lim}</td>`
+      + `<td class="n">${tok(x.tokens)}</td></tr>`;
   }).join('')||'<tr><td class="empty">sin llamadas hoy</td></tr>';
+  // Qué ha hecho cada agente y lo que ha costado. El coste POR PÁGINA es la
+  // columna que compara de verdad: gastar mucho haciendo mucho no es el mismo
+  // problema que gastar mucho por página.
+  const ag=(s.agentes||{por_agente:[]});
+  // Dos líneas por agente, no cinco columnas: en una barra lateral de 340 px
+  // las cifras se pisaban unas con otras («59 412 2,9 M 50 k») y no había forma
+  // de saber cuál era cuál. Cada número lleva ahora su unidad al lado.
+  $('#agentes').innerHTML = ag.por_agente.map(a=>
+      `<div class="ag"><div class="row"><b>${esc(TIPO_CORTO[a.otype]||a.otype)}</b>`
+      + (a.fallidos?`<span class="tag bad">${a.fallidos} sin publicar</span>`:'')
+      + `</div><i>${a.paginas} pág · ${a.requests} llam · ${tok(a.tokens)} tok`
+      + (a.tok_por_pagina?` · ${tok(a.tok_por_pagina)}/pág`:'')
+      + `</i></div>`).join('')
+    || '<p class="empty">sin lotes hoy — se rellena con el próximo pase</p>';
+
   $('#rl').textContent = m.rate_limited_total
     ? `${m.rate_limited_total} petición(es) rechazadas por cuota hoy. Si ves rechazos en cadena, empieza por aquí: cuando el proveedor aprieta, el síntoma parece culpa del guardián.`
     : 'Sin limitación de cuota hoy.';
