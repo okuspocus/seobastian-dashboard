@@ -154,6 +154,14 @@ td.n{text-align:right;color:var(--dim);font-variant-numeric:tabular-nums;white-s
 .tolive{display:inline-flex;align-items:center;font-size:var(--t-sm);
   font-weight:650;padding:var(--s1) var(--s3);border-radius:999px;
   background:var(--ok-bg);color:var(--ok);text-decoration:none}
+/* Selector de sitio: enlaces, no pestañas. El actual va sin enlace y en tinta
+   plena; los otros, apagados. Dos sitios hoy; la lista sale de la config. */
+.sites{display:inline-flex;gap:var(--s1);font-size:var(--t-sm);
+  font-variant-numeric:tabular-nums}
+.sites a,.sites b{padding:var(--s1) var(--s2);border-radius:var(--r-sm);
+  text-decoration:none;font-weight:600}
+.sites a{color:var(--dim)} .sites a:hover{background:var(--neutral-bg);color:var(--ink)}
+.sites b{background:var(--neutral-bg);color:var(--ink)}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:var(--r-sm)}
 
@@ -171,6 +179,7 @@ a{color:inherit}
 <div class="wrap">
   <header>
     <h1>Seobastian <span aria-hidden="true">·</span> lazar</h1>
+    <nav class="sites" aria-label="Sitio"><b aria-current="page">lazar</b><a href="langels/">langels</a></nav>
     <!-- `aria-live` porque la página se refresca sola: sin esto un lector de
          pantalla anuncia el estado una vez, al cargar, y nunca más se entera de
          que un pase arrancó o se cayó. `polite` para no interrumpir. -->
@@ -211,7 +220,7 @@ a{color:inherit}
     </main>
   </div>
 </div>
-<script>window.__STATE__={"now": "2026-09-07T05:03:46+00:00", "site": "lazar", "running": {"owner": "autonomous", "pid": 2418979, "started": "2026-09-07T04:00:03+00:00", "minutes": 64}, "today": {"applied": 43, "by_type": {"situation": 41, "geo": 1, "striking_distance": 1}, "quota": [{"type": "indexing", "used": 0, "total": 140, "left": 140, "pct": 0}, {"type": "situation", "used": 41, "total": 60, "left": 19, "pct": 68}, {"type": "otros", "used": 2, "total": 200, "left": null, "pct": 1}]}, "last_run": {"ts": "2026-09-07T03:25:03+00:00", "applied": 41, "rejected": 0, "prod_ok": true}, "feed": [{"ts": "2026-09-07T02:52:57+00:00", "event": "applied", "type": "situation", "n": 41, "pr": "https://github.com/okuspocus/lazar/pull/674", "sha": "fb93346f"}, {"ts": "2026-09-06T23:02:48+00:00", "event": "applied", "type": "situation", "n": 52, "pr": "https://github.com/okuspocus/lazar/pull/671", "sha": "c7ba5a31"}, {"ts": "2026-09-06T22:54:13+00:00", "event": "applied", "type": "striking_distance", "n": 15, "pr": "https://github.com/okuspocus/lazar/pull/670", "sha": "0dd7baf3"}, {"ts": "2026-09-06T22:54:12+00:00", "event": "applied", "type": "interlinking", "n": 3, "pr": "https://github.com/okuspocus/lazar/pull/669", "sha": "e7b96947"}, {"ts": "2026-09-06T22:54:11+00:00", "event": "applied", "type": "geo", "n": 2, "pr": "https://github.com/okuspocus/lazar/pull/660", "sha": "c7c57505"}, {"ts": "2026-09-06T22:54:11+00:00", "event": "applied", "type": "striking_distance", "n": 11, "pr": "https://github.com/okuspocus/lazar/pull/661", "sha": "04ecd661"}, {"ts": "2026-09-06T19:44:46+00:00", "event": "applied", "type": "situation", "n": 6, "pr": "https://github.com/okuspocus/lazar/pull/667", "sha": "cee628d5"}, {"ts": "2026-09-06T07:26:32+00:00", "event": "applied", "type": "situation", "n": 1, "pr": "https://github.com/okuspocus/lazar/pull/657", "sha": "a123c5f8"}, {"ts": "2026-09-06T07:19:36+00:00", "event": "applied", "type": "indexing", "n": 6, "pr": "https://github.com/okuspocus/lazar/pull/656", "sha": "b0b3de23"}, {"ts": "2026-09-06T04:34:23+00:00", "event": "applied", "type": "content_decay", "n": 1, "pr": "https://github.com/okuspocus/lazar/pull/655", "sha": "0ecc1736"}, {"ts": "2026-09-06T04:18:53+00:00", "event": "applied", "type": "geo", "n": 1, "pr": "https://github.com/okuspocus/lazar/pull/654", "sha": "c3e2f850"}, {"ts": "2026-09-06T01:17:43+00:00", "event": "applied", "type": "situation", "n": 1, "pr": "https://github.com/okuspocus/lazar/pull/653", "sha": "68bdc067"}, {"ts": "2026-09-05T22:16:39+00:00", "event": "applied", "type": "situation", "n": 2, "pr": "https://github.com/okuspocus/lazar/pull/652", "sha": "76edf9eb"}, {"ts": "2026-09-05T19:37:14+00:00", "event": "applied", "type": "striking_distance", "n": 7, "pr": "https://github.com/okuspocus/lazar/pull/650", "sha": "06af0d31"}, {"ts": "2026-09-05T19:24:33+00:00", "event": "applied", "type": "geo", "n": 1, "pr": "https://github.com/okuspocus/lazar/pull/649", "sha": "f4dcc9f8"}, {"ts": "2026-09-05T19:20:25+00:00", "event": "applied", "type": "situation", "n": 1, "pr": "https://github.com/okuspocus/lazar/pull/648", "sha": "8d292f14"}], "models": {"by_model": [{"model": "nvidia/nemotron-3-ultra-550b-a55b", "requests": 102, "tokens": 888302, "rate_limited": 0, "errors": 0, "role": "escritor: redacta las páginas"}, {"model": "nvidia/nemotron-3-super-120b-a12b", "requests": 82, "tokens": 295612, "rate_limited": 1, "errors": 7, "role": "revisor: aprueba o rechaza cada lote · clasificador: etiquetado en volumen · verificador: contrasta los datos antes de publicar"}, {"model": "modelscope:Tongyi-MAI/Z-Image-Turbo", "requests": 65, "tokens": 0, "rate_limited": 18, "errors": 18, "role": ""}, {"model": "nvidia/nemotron-3.5-lightning-30b-a3b", "requests": 35, "tokens": 292412, "rate_limited": 0, "errors": 0, "role": "escritor rápido: piezas cortas"}, {"model": "openrouter:nvidia/nemotron-3-super-120b-a12b:free", "requests": 19, "tokens": 153456, "rate_limited": 0, "errors": 0, "role": "red de seguridad: reintenta lo que el titular no pudo"}, {"model": "modelscope:Qwen/Qwen-Image", "requests": 18, "tokens": 0, "rate_limited": 18, "errors": 18, "role": ""}, {"model": "groq:qwen/qwen3.8-27b", "requests": 1, "tokens": 971, "rate_limited": 0, "errors": 0, "role": "extractor: lee titulares para el radar"}], "rate_limited_total": 37, "tokens_total": 1630753}, "agentes": {"por_agente": [{"otype": "situation", "lotes": 1, "paginas": 41, "requests": 259, "tokens": 918132, "errors": 41, "fallidos": 0, "tok_por_pagina": 22393}, {"otype": "content_gap", "lotes": 1, "paginas": 0, "requests": 34, "tokens": 439545, "errors": 2, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "striking_distance", "lotes": 1, "paginas": 1, "requests": 13, "tokens": 140701, "errors": 0, "fallidos": 1, "tok_por_pagina": 140701}, {"otype": "geo", "lotes": 1, "paginas": 1, "requests": 11, "tokens": 107486, "errors": 0, "fallidos": 1, "tok_por_pagina": 107486}, {"otype": "news_hook", "lotes": 1, "paginas": 0, "requests": 4, "tokens": 23918, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "verb_fix", "lotes": 2, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "faq_structure", "lotes": 2, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "meta", "lotes": 2, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "fineprint", "lotes": 2, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "indexing", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "news_post", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "terminology", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "hreflang", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "broken_link", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "ctr", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "citability", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "interlinking", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "content_decay", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "cannibalization", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "competitor_gap", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}], "tokens_total": 1629782, "paginas_total": 43}, "queue": {"by_type": [{"type": "situation", "n": 755}, {"type": "indexing", "n": 107}, {"type": "striking_distance", "n": 6}, {"type": "content_gap", "n": 5}, {"type": "geo", "n": 3}, {"type": "fineprint", "n": 3}, {"type": "interlinking", "n": 2}, {"type": "news_hook", "n": 1}], "total": 882, "situations_by_lang": {"ES": {"queued": 169, "done": 501, "total": 670, "pct": 75}, "NL": {"queued": 408, "done": 223, "total": 631, "pct": 35}, "EN": {"queued": 178, "done": 382, "total": 560, "pct": 68}}, "situations_status": {"approved": 1106, "dismissed": 37, "new": 755, "skipped": 29}}};</script>
+<script>window.__STATE__={"now": "2026-09-07T11:18:31+00:00", "site": "lazar", "modo": "auto", "running": {"owner": "autonomous", "pid": 2768474, "started": "2026-09-07T10:00:02+00:00", "minutes": 78}, "today": {"applied": 43, "by_type": {"situation": 41, "geo": 1, "striking_distance": 1}, "quota": [{"type": "indexing", "used": 0, "total": 140, "left": 140, "pct": 0}, {"type": "situation", "used": 41, "total": 60, "left": 19, "pct": 68}, {"type": "otros", "used": 2, "total": 200, "left": null, "pct": 1}]}, "last_run": {"ts": "2026-09-07T08:03:15+00:00", "applied": 0, "rejected": 1, "prod_ok": null, "modo": "auto"}, "feed": [{"ts": "2026-09-07T08:03:14+00:00", "event": "rejected", "type": "indexing", "n": 103, "layer": "diff", "why": "el revisor LLM falló (Error code: 503 - {'error': {'message': 'Service temporarily overloaded', 'type': 'Service Unavailable', 'code': 503}}) — se rechaza por s"}, {"ts": "2026-09-07T08:03:14+00:00", "event": "capped", "type": null, "n": 0}, {"ts": "2026-09-07T07:00:03+00:00", "event": "locked", "type": null, "n": 0}, {"ts": "2026-09-07T02:52:57+00:00", "event": "applied", "type": "situation", "n": 41, "pr": "https://github.com/okuspocus/lazar/pull/674", "sha": "fb93346f"}, {"ts": "2026-09-06T23:02:48+00:00", "event": "applied", "type": "situation", "n": 52, "pr": "https://github.com/okuspocus/lazar/pull/671", "sha": "c7ba5a31"}, {"ts": "2026-09-06T22:54:13+00:00", "event": "applied", "type": "striking_distance", "n": 15, "pr": "https://github.com/okuspocus/lazar/pull/670", "sha": "0dd7baf3"}, {"ts": "2026-09-06T22:54:12+00:00", "event": "applied", "type": "interlinking", "n": 3, "pr": "https://github.com/okuspocus/lazar/pull/669", "sha": "e7b96947"}, {"ts": "2026-09-06T22:54:11+00:00", "event": "applied", "type": "geo", "n": 2, "pr": "https://github.com/okuspocus/lazar/pull/660", "sha": "c7c57505"}, {"ts": "2026-09-06T22:54:11+00:00", "event": "applied", "type": "striking_distance", "n": 11, "pr": "https://github.com/okuspocus/lazar/pull/661", "sha": "04ecd661"}, {"ts": "2026-09-06T19:44:46+00:00", "event": "applied", "type": "situation", "n": 6, "pr": "https://github.com/okuspocus/lazar/pull/667", "sha": "cee628d5"}, {"ts": "2026-09-06T07:26:32+00:00", "event": "applied", "type": "situation", "n": 1, "pr": "https://github.com/okuspocus/lazar/pull/657", "sha": "a123c5f8"}, {"ts": "2026-09-06T07:19:36+00:00", "event": "applied", "type": "indexing", "n": 6, "pr": "https://github.com/okuspocus/lazar/pull/656", "sha": "b0b3de23"}, {"ts": "2026-09-06T04:34:23+00:00", "event": "applied", "type": "content_decay", "n": 1, "pr": "https://github.com/okuspocus/lazar/pull/655", "sha": "0ecc1736"}, {"ts": "2026-09-06T04:18:53+00:00", "event": "applied", "type": "geo", "n": 1, "pr": "https://github.com/okuspocus/lazar/pull/654", "sha": "c3e2f850"}, {"ts": "2026-09-06T01:17:43+00:00", "event": "applied", "type": "situation", "n": 1, "pr": "https://github.com/okuspocus/lazar/pull/653", "sha": "68bdc067"}], "models": {"by_model": [{"model": "nvidia/nemotron-3-ultra-550b-a55b", "requests": 1013, "tokens": 6647352, "rate_limited": 174, "errors": 196, "role": "escritor: redacta las páginas"}, {"model": "nvidia/nemotron-3-super-120b-a12b", "requests": 83, "tokens": 295612, "rate_limited": 2, "errors": 8, "role": "revisor: aprueba o rechaza cada lote · clasificador: etiquetado en volumen · verificador: contrasta los datos antes de publicar"}, {"model": "modelscope:Tongyi-MAI/Z-Image-Turbo", "requests": 65, "tokens": 0, "rate_limited": 18, "errors": 18, "role": ""}, {"model": "nvidia/nemotron-3.5-lightning-30b-a3b", "requests": 35, "tokens": 292412, "rate_limited": 0, "errors": 0, "role": "escritor rápido: piezas cortas"}, {"model": "openrouter:nvidia/nemotron-3-super-120b-a12b:free", "requests": 20, "tokens": 153456, "rate_limited": 0, "errors": 0, "role": "red de seguridad: reintenta lo que el titular no pudo"}, {"model": "modelscope:Qwen/Qwen-Image", "requests": 18, "tokens": 0, "rate_limited": 18, "errors": 18, "role": ""}, {"model": "groq:qwen/qwen3.8-27b", "requests": 1, "tokens": 971, "rate_limited": 0, "errors": 0, "role": "extractor: lee titulares para el radar"}, {"model": "qwen/qwen3.8-27b", "requests": 1, "tokens": 0, "rate_limited": 1, "errors": 1, "role": "extractor: lee titulares para el radar"}], "rate_limited_total": 213, "tokens_total": 7389803}, "agentes": {"por_agente": [{"otype": "indexing", "lotes": 2, "paginas": 0, "requests": 913, "tokens": 5759050, "errors": 197, "fallidos": 1, "tok_por_pagina": 0}, {"otype": "situation", "lotes": 1, "paginas": 41, "requests": 259, "tokens": 918132, "errors": 41, "fallidos": 0, "tok_por_pagina": 22393}, {"otype": "content_gap", "lotes": 1, "paginas": 0, "requests": 34, "tokens": 439545, "errors": 2, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "striking_distance", "lotes": 1, "paginas": 1, "requests": 13, "tokens": 140701, "errors": 0, "fallidos": 1, "tok_por_pagina": 140701}, {"otype": "geo", "lotes": 1, "paginas": 1, "requests": 11, "tokens": 107486, "errors": 0, "fallidos": 1, "tok_por_pagina": 107486}, {"otype": "news_hook", "lotes": 1, "paginas": 0, "requests": 4, "tokens": 23918, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "verb_fix", "lotes": 3, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "faq_structure", "lotes": 3, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "meta", "lotes": 3, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "fineprint", "lotes": 3, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "news_post", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "terminology", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "hreflang", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "broken_link", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "ctr", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "citability", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "interlinking", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "content_decay", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "cannibalization", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "competitor_gap", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}], "tokens_total": 7388832, "paginas_total": 43}, "queue": {"by_type": [{"type": "situation", "n": 755}, {"type": "indexing", "n": 156}, {"type": "striking_distance", "n": 19}, {"type": "content_gap", "n": 7}, {"type": "geo", "n": 3}, {"type": "fineprint", "n": 2}, {"type": "news_hook", "n": 1}], "total": 943, "situations_by_lang": {"ES": {"queued": 169, "done": 501, "total": 670, "pct": 75}, "NL": {"queued": 408, "done": 223, "total": 631, "pct": 35}, "EN": {"queued": 178, "done": 382, "total": 560, "pct": 68}}, "situations_status": {"approved": 1106, "dismissed": 37, "new": 755, "skipped": 29}, "markets": {"type": "situation", "title": "Situaciones por mercado", "unit": "publicadas", "by_lang": {"ES": {"queued": 169, "done": 501, "total": 670, "pct": 75}, "NL": {"queued": 408, "done": 223, "total": 631, "pct": 35}, "EN": {"queued": 178, "done": 382, "total": 560, "pct": 68}}}}};window.__BASE__="";</script>
 <script>
 const $=s=>document.querySelector(s);
 // 7918137 no se lee. 7,9 M sí.
@@ -229,9 +238,13 @@ const hhmm=iso=>{const d=new Date(iso);return isNaN(d)?'--:--':pad(d.getHours())
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 const LABEL={applied:'aplicado',rejected:'rechazado',reverted:'REVERTIDO',
-  capped:'techo alcanzado',error:'error',locked:'saltado (lock)',deferred:'pospuesto'};
+  capped:'techo alcanzado',error:'error',locked:'saltado (lock)',deferred:'pospuesto',
+  pr_opened:'PR abierto'};
 const TONE={applied:'ok',rejected:'bad',reverted:'bad',error:'bad',capped:'warn',
-  locked:'warn',deferred:'warn'};
+  locked:'warn',deferred:'warn',pr_opened:'ok'};
+// De dónde sondea esta página. Vacío en el sitio por defecto; `/langels` en
+// los demás. Lo fija el servidor al construir la página.
+const BASE=window.__BASE__||'';
 
 function quota(q){
   if(!q.length) return '<div class="empty">sin cuotas configuradas</div>';
@@ -249,6 +262,13 @@ function quota(q){
 function lastRun(r){
   // Sustituye al ✓ suelto: qué pasó, cuándo, y si producción quedó bien.
   if(!r) return '';
+  if(r.modo==='pr'){
+    // Por PR no hay «producción verificada»: lo que hay es un PR esperando
+    // a una persona, o un lote que no llegó a abrir ninguno.
+    const est = r.pr ? `<a href="${esc(r.pr)}">PR abierto</a>, espera revisión`
+                     : 'sin PR (nada que abrir)';
+    return `<p class="note">Último lote ${hhmm(r.ts)} · ${r.applied||0} escritas · ${est}</p>`;
+  }
   const bad = r.prod_ok===false;
   const est = bad ? '<span class="tag bad">producción rota</span>'
             : r.prod_ok===true ? '<span class="tag ok">producción verificada</span>'
@@ -264,6 +284,7 @@ function feed(items){
     let body=`<span class="tag ${tone}">${esc(lab)}</span> ${esc(e.type||'')}`;
     if(e.n) body+=` · ${e.n} cambio${e.n===1?'':'s'}`;
     if(e.sha) body+=` · <code>${esc(e.sha)}</code>`;
+    if(e.event==='pr_opened'&&e.pr) body+=` · <a href="${esc(e.pr)}">ver PR</a>`;
     let why='';
     if(e.layer) why=`capa ${esc(e.layer)}: ${esc(e.why||'')}`;
     else if(e.why) why=esc(e.why);
@@ -283,21 +304,28 @@ function render(s){
   // Dos cifras, no tres. El tercer KPI era un ✓ suelto bajo la palabra
   // «producción», que no decía ni qué se verificó ni cuándo; ahora eso vive en
   // la línea de estado del último pase, con su hora.
-  $('#today').innerHTML=`<div class="kpi"><b>${s.today.applied}</b><small>aplicadas hoy</small></div>`
+  // Por PR nada se «aplica»: se escribe y espera a una persona.
+  const hechas = s.modo==='pr' ? 'en PR hoy' : 'aplicadas hoy';
+  $('#today').innerHTML=`<div class="kpi"><b>${s.today.applied}</b><small>${hechas}</small></div>`
     + `<div class="kpi"><b>${s.queue.total}</b><small>en cola</small></div>`;
   $('#quota').innerHTML=quota(s.today.quota)+lastRun(s.last_run);
   $('#feed').innerHTML=feed(s.feed);
   $('#feedhint').textContent=s.feed.length?`últimas ${s.feed.length} · 36 h`:'';
 
-  const L=s.queue.situations_by_lang||{};
+  // Qué mide la tarjeta lo dice el dominio del sitio (livestate.MERCADOS):
+  // situaciones en golf, guías nuevas en idiomas.
+  const M=s.queue.markets||{title:'Situaciones por mercado',unit:'publicadas',
+    by_lang:s.queue.situations_by_lang||{}};
+  const L=M.by_lang||{};
+  $('#h-mk').textContent=M.title;
   $('#langs').innerHTML=Object.keys(L).length
     ? Object.entries(L).map(([k,v])=>{
         const w=v.total?Math.round(100*v.done/v.total):0;
         return `<div class="mk"><div class="row"><span class="code">${esc(k)}</span>
-          <i>${v.done} de ${v.total} publicadas</i></div>
+          <i>${v.done} de ${v.total} ${esc(M.unit)}</i></div>
           <div class="track"><div class="fill" style="width:${w}%"></div></div></div>`;
       }).join('')
-    : '<div class="empty">sin situaciones inventariadas</div>';
+    : '<div class="empty">nada inventariado por mercado</div>';
 
   $('#queue').innerHTML=s.queue.by_type.map(t=>
     `<tr><td>${esc(t.type)}</td><td class="n">${t.n}</td></tr>`).join('')
@@ -343,7 +371,7 @@ function render(s){
 
 async function tick(){
   try{
-    const r=await fetch('/api/state',{cache:'no-store'});
+    const r=await fetch(BASE+'/api/state',{cache:'no-store'});
     if(!r.ok) throw new Error(r.status);
     render(await r.json());
     $('#dot').classList.remove('err');
