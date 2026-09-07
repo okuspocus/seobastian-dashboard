@@ -1,0 +1,389 @@
+<!doctype html><html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Seobastian · langels</title>
+<style>
+/* ---------------------------------------------------------------------------
+   Escala, no números sueltos.
+
+   La primera versión tenía SIETE tamaños de fuente y ONCE espaciados elegidos
+   uno a uno, que es como se consigue que nada quede alineado con nada sin que
+   se sepa por qué. Aquí hay una escala tipográfica y una rejilla de 4 px, y
+   todo lo demás sale de ellas.
+
+   Ninguna clase cambia de nombre: el JS escribe `q`, `mk`, `ev`, `tag ok`… y
+   renombrar cualquiera sería romper el pintado para arreglar el aspecto.
+--------------------------------------------------------------------------- */
+:root{
+  /* Tipografía: 12 / 13 / 15 / 20 / 28, y nada entre medias. */
+  --t-xs:.75rem; --t-sm:.8125rem; --t-md:.9375rem; --t-lg:1.25rem; --t-xl:1.75rem;
+  /* Espaciado en múltiplos de 4. */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px; --s8:32px;
+  --r-sm:6px; --r-md:10px; --r-lg:14px;
+
+  --bg:#f4f5f7; --card:#fff; --ink:#15181e; --dim:#5f6672; --line:#e3e6ea;
+  --ok:#0a7247; --warn:#9a5b00; --bad:#b3261e; --accent:#8a6508;
+  --bar:#e9ebef; --shadow:0 1px 2px rgba(16,20,28,.05),0 1px 8px rgba(16,20,28,.04);
+  /* Fondos de las insignias: relleno tenue en vez de borde de color, que a
+     11 px se ve sucio y compite con el texto que rodea. */
+  --ok-bg:#e7f4ee; --warn-bg:#fdf1dc; --bad-bg:#fdeaea; --neutral-bg:#eef0f3;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d0f13; --card:#161a21; --ink:#e9ebef; --dim:#98a0ac; --line:#242a33;
+    --ok:#3ddc9a; --warn:#f5bd4f; --bad:#ff8b84; --accent:#e3ba57;
+    --bar:#222932; --shadow:none;
+    --ok-bg:#12281f; --warn-bg:#2b2113; --bad-bg:#2e1a19; --neutral-bg:#1e242c;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d0f13; --card:#161a21; --ink:#e9ebef; --dim:#98a0ac; --line:#242a33;
+  --ok:#3ddc9a; --warn:#f5bd4f; --bad:#ff8b84; --accent:#e3ba57;
+  --bar:#222932; --shadow:none;
+  --ok-bg:#12281f; --warn-bg:#2b2113; --bad-bg:#2e1a19; --neutral-bg:#1e242c;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:var(--t-md)/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--s4) var(--s8)}
+
+/* Cabecera pegajosa. El degradado del borde evita el corte duro cuando el
+   contenido pasa por debajo. */
+header{display:flex;align-items:center;gap:var(--s3);flex-wrap:wrap;
+  position:sticky;top:0;z-index:5;background:var(--bg);
+  padding:var(--s4) 0 var(--s3);margin-bottom:var(--s4);
+  border-bottom:1px solid var(--line)}
+h1{font-size:var(--t-lg);margin:0;font-weight:640;letter-spacing:-.01em}
+h1 span{color:var(--accent)}
+.live{display:inline-flex;align-items:center;gap:var(--s2);font-size:var(--t-sm);
+  font-weight:600;padding:var(--s1) var(--s3);border-radius:999px;
+  border:1px solid var(--line);background:var(--card);box-shadow:var(--shadow)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--dim);flex:none}
+.dot.on{background:var(--ok);animation:pulse 1.8s ease-in-out infinite}
+.dot.err{background:var(--bad)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+/* Un punto que late sin parar es exactamente lo que esta consulta existe para
+   apagar; el color por sí solo ya distingue los tres estados. */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;transition-duration:.01ms !important}
+}
+.ago{margin-left:auto;font-size:var(--t-xs);color:var(--dim);
+  font-variant-numeric:tabular-nums}
+
+/* Barra lateral + la actividad como protagonista. La rejilla `auto-fit`
+   anterior repartía todo a lo ancho: «Hoy» quedaba con un hueco muerto bajo
+   las barras, «Modelos» solo en su fila, y el feed —lo que se venía a ver— al
+   fondo del todo. */
+.grid{display:grid;gap:var(--s3);align-items:start;
+  grid-template-columns:minmax(280px,340px) minmax(0,1fr)}
+.side{display:flex;flex-direction:column;gap:var(--s3);min-width:0}
+.main{min-width:0}
+@media(max-width:860px){
+  .grid{grid-template-columns:1fr}
+  .main{order:-1}                 /* en móvil, la actividad primero */
+}
+
+.card{background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r-lg);padding:var(--s4);box-shadow:var(--shadow)}
+.card h2{font-size:var(--t-xs);text-transform:uppercase;letter-spacing:.07em;
+  color:var(--dim);margin:0 0 var(--s3);font-weight:650}
+
+.kpis{display:flex;gap:var(--s6);flex-wrap:wrap}
+.kpi b{display:block;font-size:var(--t-xl);line-height:1.1;font-weight:640;
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.kpi small{color:var(--dim);font-size:var(--t-xs)}
+
+/* Barras de progreso: cuota y mercados comparten la pista. */
+.q,.mk{margin-bottom:var(--s3)}
+.q:last-child,.mk:last-child{margin-bottom:0}
+.q .row,.mk .row{display:flex;justify-content:space-between;align-items:baseline;
+  gap:var(--s2);font-size:var(--t-sm);margin-bottom:var(--s1)}
+.q .row i,.mk i{font-style:normal;color:var(--dim);font-size:var(--t-xs);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.mk .code{font-weight:700;letter-spacing:.04em}
+/* Una ficha por agente: nombre arriba, cifras debajo con su unidad. */
+.ag{padding:var(--s2) 0;border-bottom:1px solid var(--line)}
+.ag:last-child{border-bottom:0}
+.ag .row{display:flex;align-items:baseline;gap:var(--s2);
+  justify-content:flex-start;margin-bottom:1px}
+.ag b{font-weight:640}
+.ag i{font-style:normal;color:var(--dim);font-size:var(--t-xs);
+  font-variant-numeric:tabular-nums}
+/* La función del modelo: línea propia, apagada, SIN el float de .hint —
+   flotada a la derecha se pegaba a las cifras y es justo lo que se quiere
+   evitar. */
+.ag .rol{color:var(--dim);font-size:var(--t-xs);margin:1px 0 2px}
+.track{height:6px;border-radius:99px;background:var(--bar);overflow:hidden}
+.fill{height:100%;border-radius:99px;background:var(--ok);
+  transition:width .45s cubic-bezier(.4,0,.2,1)}
+.fill.warn{background:var(--warn)} .fill.full{background:var(--bad)}
+.mk .fill{background:var(--accent)}
+
+table{width:100%;border-collapse:collapse;font-size:var(--t-sm)}
+td{padding:var(--s2) 0;border-bottom:1px solid var(--line);vertical-align:baseline}
+tr:last-child td{border-bottom:0}
+td.n{text-align:right;color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.feed{max-height:min(74vh,780px);overflow-y:auto;overscroll-behavior:contain;
+  margin-right:calc(var(--s1) * -1);padding-right:var(--s1)}
+.ev{display:flex;gap:var(--s3);padding:var(--s2) 0;border-bottom:1px solid var(--line);
+  font-size:var(--t-sm)}
+.ev:last-child{border-bottom:0}
+.ev .t{color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap;
+  font-size:var(--t-xs);padding-top:2px;min-width:2.9em}
+.ev .b{flex:1;min-width:0}
+.ev .w{color:var(--dim);font-size:var(--t-xs);display:block;margin-top:2px;
+  overflow-wrap:anywhere}
+.ev code{font-size:var(--t-xs);background:var(--neutral-bg);padding:1px var(--s1);
+  border-radius:var(--r-sm);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+/* Relleno tenue, no borde de color: a 11 px un contorno se ve sucio y compite
+   con el texto que lo rodea. */
+.tag{display:inline-block;padding:1px var(--s2);border-radius:var(--r-sm);
+  font-size:var(--t-xs);font-weight:650;background:var(--neutral-bg);color:var(--dim)}
+.tag.ok{background:var(--ok-bg);color:var(--ok)}
+.tag.bad{background:var(--bad-bg);color:var(--bad)}
+.tag.warn{background:var(--warn-bg);color:var(--warn)}
+
+.note{color:var(--dim);font-size:var(--t-xs);margin:var(--s3) 0 0;line-height:1.5}
+.hint{float:right;font-weight:500;text-transform:none;letter-spacing:0;
+  font-size:var(--t-xs);color:var(--dim)}
+.empty{color:var(--dim);font-size:var(--t-sm);padding:var(--s1) 0}
+.tolive{display:inline-flex;align-items:center;font-size:var(--t-sm);
+  font-weight:650;padding:var(--s1) var(--s3);border-radius:999px;
+  background:var(--ok-bg);color:var(--ok);text-decoration:none}
+/* Selector de sitio: enlaces, no pestañas. El actual va sin enlace y en tinta
+   plena; los otros, apagados. Dos sitios hoy; la lista sale de la config. */
+.sites{display:inline-flex;gap:var(--s1);font-size:var(--t-sm);
+  font-variant-numeric:tabular-nums}
+.sites a,.sites b{padding:var(--s1) var(--s2);border-radius:var(--r-sm);
+  text-decoration:none;font-weight:600}
+.sites a{color:var(--dim)} .sites a:hover{background:var(--neutral-bg);color:var(--ink)}
+.sites b{background:var(--neutral-bg);color:var(--ink)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:var(--r-sm)}
+
+@media(max-width:560px){
+  /* El titular NO encoge aquí. Encogía a 17 px, un sexto tamaño que la escala
+     de arriba dice explícitamente que no existe, y no compraba nada: «Seobastian
+     · lazar» ocupa ~180 de los 336 px útiles de un móvil de 360, así que la
+     insignia sigue cabiendo al lado y `.ago` envuelve igual que envolvía. Bajarlo
+     al siguiente escalón real (--t-md) lo dejaría del tamaño del cuerpo de
+     texto, o sea sin jerarquía. */
+  .wrap{padding:0 var(--s3) var(--s6)}
+  .kpis{gap:var(--s5)}
+}
+</style></head><body>
+<div class="wrap">
+  <header>
+    <h1>Seobastian <span aria-hidden="true">·</span> langels</h1>
+    <nav class="sites" aria-label="Sitio"><a href="../">lazar</a><b aria-current="page">langels</b></nav>
+    <!-- `aria-live` porque la página se refresca sola: sin esto un lector de
+         pantalla anuncia el estado una vez, al cargar, y nunca más se entera de
+         que un pase arrancó o se cayó. `polite` para no interrumpir. -->
+    <span class="live" aria-live="polite">
+      <span class="dot" id="dot" aria-hidden="true"></span><span id="live">…</span></span>
+    
+    <span class="ago" id="ago" aria-live="polite"></span>
+  </header>
+  <div class="grid">
+    <aside class="side" aria-label="Resumen del día">
+      <section class="card" aria-labelledby="h-hoy">
+        <h2 id="h-hoy">Hoy</h2>
+        <div class="kpis" id="today"></div>
+        <div id="quota" style="margin-top:var(--s4)"></div>
+      </section>
+      <section class="card" aria-labelledby="h-mk">
+        <h2 id="h-mk">Situaciones por mercado</h2><div id="langs"></div></section>
+      <section class="card" aria-labelledby="h-ag">
+        <h2 id="h-ag">Qué ha hecho cada agente hoy</h2>
+        <div id="agentes"></div></section>
+      <section class="card" aria-labelledby="h-mo">
+        <h2 id="h-mo">Modelos hoy</h2>
+        <!-- Bloques de dos líneas, no columnas: la misma decisión que en «Qué
+             ha hecho cada agente» y por el mismo motivo — en una barra de
+             340 px las columnas no separan y las cifras se pisan. Cada número
+             lleva su unidad al lado. -->
+        <div id="models"></div><p class="note" id="rl"></p></section>
+      <section class="card" aria-labelledby="h-co">
+        <h2 id="h-co">Cola por tipo</h2><table><tbody id="queue"></tbody></table></section>
+    </aside>
+    <main class="main">
+      <section class="card" aria-labelledby="h-ac">
+        <h2 id="h-ac">Actividad <span class="hint" id="feedhint"></span></h2>
+        <!-- Desplazable con teclado: sin tabindex, un div con scroll propio es
+             inalcanzable sin ratón. -->
+        <div class="feed" id="feed" tabindex="0" role="log" aria-label="Actividad reciente"></div>
+      </section>
+    </main>
+  </div>
+</div>
+<script>window.__STATE__={"now": "2026-09-07T11:19:23+00:00", "site": "langels", "modo": "pr", "running": null, "today": {"applied": 0, "by_type": {}, "quota": [{"type": "meta", "used": 0, "total": 5, "left": 5, "pct": 0}, {"type": "ctr", "used": 0, "total": 3, "left": 3, "pct": 0}, {"type": "content_gap", "used": 0, "total": 2, "left": 2, "pct": 0}, {"type": "striking_distance", "used": 0, "total": 2, "left": 2, "pct": 0}, {"type": "interlinking", "used": 0, "total": 2, "left": 2, "pct": 0}, {"type": "indexing", "used": 0, "total": 2, "left": 2, "pct": 0}, {"type": "citability", "used": 0, "total": 3, "left": 3, "pct": 0}, {"type": "content_decay", "used": 0, "total": 1, "left": 1, "pct": 0}, {"type": "broken_link", "used": 0, "total": 3, "left": 3, "pct": 0}, {"type": "hreflang", "used": 0, "total": 2, "left": 2, "pct": 0}, {"type": "faq_structure", "used": 0, "total": 10, "left": 10, "pct": 0}]}, "last_run": null, "feed": [], "models": {"by_model": [], "rate_limited_total": 0, "tokens_total": 0}, "agentes": {"por_agente": [], "tokens_total": 0, "paginas_total": 0}, "queue": {"by_type": [{"type": "indexing", "n": 23}, {"type": "content_gap", "n": 14}, {"type": "striking_distance", "n": 3}, {"type": "schema", "n": 1}, {"type": "interlinking", "n": 1}], "total": 42, "situations_by_lang": {"en": {"queued": 9, "done": 8, "total": 17, "pct": 47}, "??": {"queued": 3, "done": 0, "total": 3, "pct": 0}, "es": {"queued": 2, "done": 0, "total": 2, "pct": 0}}, "situations_status": {"approved": 8, "dismissed": 2, "new": 14}, "markets": {"type": "content_gap", "title": "Guías por mercado", "unit": "escritas", "by_lang": {"en": {"queued": 9, "done": 8, "total": 17, "pct": 47}, "??": {"queued": 3, "done": 0, "total": 3, "pct": 0}, "es": {"queued": 2, "done": 0, "total": 2, "pct": 0}}}}};window.__BASE__="";</script>
+<script>
+const $=s=>document.querySelector(s);
+// 7918137 no se lee. 7,9 M sí.
+const tok=n=>!n?'—':(n>=1e6?(n/1e6).toFixed(1).replace('.',',')+' M'
+                    :n>=1e3?Math.round(n/1e3)+' k':String(n));
+const TIPO_CORTO={situation:'situaciones', indexing:'indexación',
+  interlinking:'enlazado', striking_distance:'top 10', citability:'citabilidad',
+  faq_structure:'FAQ', fineprint:'letra pequeña', verb_fix:'títulos',
+  terminology:'terminología', hreflang:'idiomas', broken_link:'enlaces rotos',
+  content_decay:'páginas en caída', geo:'respuestas IA',
+  cannibalization:'canibalización', competitor_gap:'hueco competitivo',
+  content_gap:'páginas nuevas'};
+const pad=n=>String(n).padStart(2,'0');
+const hhmm=iso=>{const d=new Date(iso);return isNaN(d)?'--:--':pad(d.getHours())+':'+pad(d.getMinutes());};
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+const LABEL={applied:'aplicado',rejected:'rechazado',reverted:'REVERTIDO',
+  capped:'techo alcanzado',error:'error',locked:'saltado (lock)',deferred:'pospuesto',
+  pr_opened:'PR abierto'};
+const TONE={applied:'ok',rejected:'bad',reverted:'bad',error:'bad',capped:'warn',
+  locked:'warn',deferred:'warn',pr_opened:'ok'};
+// De dónde sondea esta página. Vacío en el sitio por defecto; `/langels` en
+// los demás. Lo fija el servidor al construir la página.
+const BASE=window.__BASE__||'';
+
+function quota(q){
+  if(!q.length) return '<div class="empty">sin cuotas configuradas</div>';
+  return q.map(x=>{
+    const cls = x.pct>=100?'full':x.pct>=85?'warn':'';
+    // Siempre «usadas de total». El contador del pase imprimía el RESTO con
+    // formato de consumo y hacía leer lo contrario de lo que ponía.
+    const left = x.left===null?'':` · quedan ${x.left}`;
+    return `<div class="q"><div class="row"><span>${esc(x.type)}</span>
+      <i>${x.used}/${x.total} usadas${left}</i></div>
+      <div class="track"><div class="fill ${cls}" style="width:${Math.min(100,x.pct)}%"></div></div></div>`;
+  }).join('');
+}
+
+function lastRun(r){
+  // Sustituye al ✓ suelto: qué pasó, cuándo, y si producción quedó bien.
+  if(!r) return '';
+  if(r.modo==='pr'){
+    // Por PR no hay «producción verificada»: lo que hay es un PR esperando
+    // a una persona, o un lote que no llegó a abrir ninguno.
+    const est = r.pr ? `<a href="${esc(r.pr)}">PR abierto</a>, espera revisión`
+                     : 'sin PR (nada que abrir)';
+    return `<p class="note">Último lote ${hhmm(r.ts)} · ${r.applied||0} escritas · ${est}</p>`;
+  }
+  const bad = r.prod_ok===false;
+  const est = bad ? '<span class="tag bad">producción rota</span>'
+            : r.prod_ok===true ? '<span class="tag ok">producción verificada</span>'
+            : '<span class="tag">sin verificar</span>';
+  return `<p class="note">Último pase ${hhmm(r.ts)} · ${r.applied||0} aplicadas`
+       + `${r.rejected?` · ${r.rejected} rechazadas`:''} · ${est}</p>`;
+}
+
+function feed(items){
+  if(!items.length) return '<div class="empty">sin actividad en las últimas 36 h</div>';
+  return items.map(e=>{
+    const tone=TONE[e.event]||'', lab=LABEL[e.event]||e.event;
+    let body=`<span class="tag ${tone}">${esc(lab)}</span> ${esc(e.type||'')}`;
+    if(e.n) body+=` · ${e.n} cambio${e.n===1?'':'s'}`;
+    if(e.sha) body+=` · <code>${esc(e.sha)}</code>`;
+    if(e.event==='pr_opened'&&e.pr) body+=` · <a href="${esc(e.pr)}">ver PR</a>`;
+    let why='';
+    if(e.layer) why=`capa ${esc(e.layer)}: ${esc(e.why||'')}`;
+    else if(e.why) why=esc(e.why);
+    return `<div class="ev"><span class="t">${hhmm(e.ts)}</span><span class="b">${body}
+      ${why?`<span class="w">${why}</span>`:''}</span></div>`;
+  }).join('');
+}
+
+function render(s){
+  const r=s.running;
+  $('#dot').className='dot'+(r?' on':'');
+  $('#live').textContent = r
+    ? `${r.owner||'pase'} trabajando · ${r.minutes??'?'} min`
+    : 'en reposo';
+  $('#ago').textContent='actualizado '+hhmm(s.now);
+
+  // Dos cifras, no tres. El tercer KPI era un ✓ suelto bajo la palabra
+  // «producción», que no decía ni qué se verificó ni cuándo; ahora eso vive en
+  // la línea de estado del último pase, con su hora.
+  // Por PR nada se «aplica»: se escribe y espera a una persona.
+  const hechas = s.modo==='pr' ? 'en PR hoy' : 'aplicadas hoy';
+  $('#today').innerHTML=`<div class="kpi"><b>${s.today.applied}</b><small>${hechas}</small></div>`
+    + `<div class="kpi"><b>${s.queue.total}</b><small>en cola</small></div>`;
+  $('#quota').innerHTML=quota(s.today.quota)+lastRun(s.last_run);
+  $('#feed').innerHTML=feed(s.feed);
+  $('#feedhint').textContent=s.feed.length?`últimas ${s.feed.length} · 36 h`:'';
+
+  // Qué mide la tarjeta lo dice el dominio del sitio (livestate.MERCADOS):
+  // situaciones en golf, guías nuevas en idiomas.
+  const M=s.queue.markets||{title:'Situaciones por mercado',unit:'publicadas',
+    by_lang:s.queue.situations_by_lang||{}};
+  const L=M.by_lang||{};
+  $('#h-mk').textContent=M.title;
+  $('#langs').innerHTML=Object.keys(L).length
+    ? Object.entries(L).map(([k,v])=>{
+        const w=v.total?Math.round(100*v.done/v.total):0;
+        return `<div class="mk"><div class="row"><span class="code">${esc(k)}</span>
+          <i>${v.done} de ${v.total} ${esc(M.unit)}</i></div>
+          <div class="track"><div class="fill" style="width:${w}%"></div></div></div>`;
+      }).join('')
+    : '<div class="empty">nada inventariado por mercado</div>';
+
+  $('#queue').innerHTML=s.queue.by_type.map(t=>
+    `<tr><td>${esc(t.type)}</td><td class="n">${t.n}</td></tr>`).join('')
+    || '<tr><td class="empty">cola vacía</td></tr>';
+
+  const m=s.models;
+  $('#models').innerHTML=m.by_model.map(x=>{
+    // «1 429» se leía como el número 1429. Ahora se dice en palabras.
+    const lim = x.rate_limited
+      ? ` <span class="tag warn">${x.rate_limited} limitada${x.rate_limited===1?'':'s'}</span>` : '';
+    const esImagen = x.model.includes('image') || x.model.startsWith('modelscope:');
+    // La FUNCIÓN en su propia línea: un id de modelo no dice qué hace aquí,
+    // y recordar que nemotron-super es el revisor no es trabajo para un
+    // humano. Los de imagen no viven en `models:`, llevan la suya fija.
+    const rol = x.role || (esImagen ? 'portadas: genera la imagen de cada página' : '');
+    // Un modelo de IMAGEN no gasta tokens, y un cero ahí se lee como fallo de
+    // contabilidad. Se dice lo que es; no se le inventa un equivalente.
+    const gasto = `${x.requests} llamada${x.requests===1?'':'s'} a la API`
+      + (x.tokens ? ` · ${tok(x.tokens)} tokens` : (esImagen ? ' · imágenes, no tokens' : ''));
+    return `<div class="ag"><div class="row"><b>${esc(x.model.split('/').pop())}</b>${lim}</div>`
+      + (rol ? `<div class="rol">${esc(rol)}</div>` : '')
+      + `<i>${gasto}</i></div>`;
+  }).join('')||'<div class="empty">sin llamadas hoy</div>';
+  // Qué ha hecho cada agente y lo que ha costado. El coste POR PÁGINA es la
+  // columna que compara de verdad: gastar mucho haciendo mucho no es el mismo
+  // problema que gastar mucho por página.
+  const ag=(s.agentes||{por_agente:[]});
+  // Dos líneas por agente, no cinco columnas: en una barra lateral de 340 px
+  // las cifras se pisaban unas con otras («59 412 2,9 M 50 k») y no había forma
+  // de saber cuál era cuál. Cada número lleva ahora su unidad al lado.
+  $('#agentes').innerHTML = ag.por_agente.map(a=>
+      `<div class="ag"><div class="row"><b>${esc(TIPO_CORTO[a.otype]||a.otype)}</b>`
+      + (a.fallidos?`<span class="tag bad">${a.fallidos} sin publicar</span>`:'')
+      + `</div><i>${a.paginas} pág · ${a.requests} llam · ${tok(a.tokens)} tok`
+      + (a.tok_por_pagina?` · ${tok(a.tok_por_pagina)}/pág`:'')
+      + `</i></div>`).join('')
+    || '<p class="empty">sin lotes hoy — se rellena con el próximo pase</p>';
+
+  $('#rl').textContent = m.rate_limited_total
+    ? `${m.rate_limited_total} petición(es) rechazadas por cuota hoy. Si ves rechazos en cadena, empieza por aquí: cuando el proveedor aprieta, el síntoma parece culpa del guardián.`
+    : 'Sin limitación de cuota hoy.';
+}
+
+async function tick(){
+  try{
+    const r=await fetch(BASE+'/api/state',{cache:'no-store'});
+    if(!r.ok) throw new Error(r.status);
+    render(await r.json());
+    $('#dot').classList.remove('err');
+  }catch(e){
+    // Nunca dejar números viejos pasando por actuales: ese era el defecto del
+    // panel anterior, que a media tarde contaba la noche anterior.
+    $('#dot').className='dot err';
+    $('#live').textContent='sin conexión con el piloto';
+    $('#ago').textContent='datos del '+hhmm(window.__STATE__.now);
+  }
+}
+render(window.__STATE__);
+if(location.protocol!=='file:') { tick(); setInterval(tick,5000); }
+</script>
+</body></html>
