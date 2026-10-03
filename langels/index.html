@@ -147,6 +147,7 @@ td.n{text-align:right;color:var(--dim);font-variant-numeric:tabular-nums;white-s
 .tag.bad{background:var(--bad-bg);color:var(--bad)}
 .tag.warn{background:var(--warn-bg);color:var(--warn)}
 
+.prov{color:var(--dim);font-weight:500}
 .note{color:var(--dim);font-size:var(--t-xs);margin:var(--s3) 0 0;line-height:1.5}
 .hint{float:right;font-weight:500;text-transform:none;letter-spacing:0;
   font-size:var(--t-xs);color:var(--dim)}
@@ -191,17 +192,17 @@ a{color:inherit}
   <div class="grid">
     <aside class="side" aria-label="Resumen del día">
       <section class="card" aria-labelledby="h-hoy">
-        <h2 id="h-hoy">Hoy</h2>
+        <h2 id="h-hoy">Hoy <span class="hint">24 h</span></h2>
         <div class="kpis" id="today"></div>
         <div id="quota" style="margin-top:var(--s4)"></div>
       </section>
       <section class="card" aria-labelledby="h-mk">
         <h2 id="h-mk">Situaciones por mercado</h2><div id="langs"></div></section>
       <section class="card" aria-labelledby="h-ag">
-        <h2 id="h-ag">Qué ha hecho cada agente hoy</h2>
+        <h2 id="h-ag">Qué ha hecho cada agente <span class="hint">24 h</span></h2>
         <div id="agentes"></div></section>
       <section class="card" aria-labelledby="h-mo">
-        <h2 id="h-mo">Modelos hoy</h2>
+        <h2 id="h-mo">Modelos <span class="hint">24 h</span></h2>
         <!-- Bloques de dos líneas, no columnas: la misma decisión que en «Qué
              ha hecho cada agente» y por el mismo motivo — en una barra de
              340 px las columnas no separan y las cifras se pisan. Cada número
@@ -220,7 +221,7 @@ a{color:inherit}
     </main>
   </div>
 </div>
-<script>window.__STATE__={"now": "2026-10-02T05:31:17+00:00", "site": "langels", "modo": "auto", "running": null, "today": {"applied": 0, "by_type": {}, "quota": []}, "last_run": {"ts": "2026-10-02T03:13:52+00:00", "applied": 0, "rejected": 0, "prod_ok": null, "modo": "auto", "reloj": {"total_min": 0.4, "componiendo_min": 0.0, "revisando_min": 0.0, "improductivo_min": 0.4, "improductivo_pct": 97.2}}, "feed": [{"ts": "2026-10-02T03:13:42+00:00", "event": "error", "type": null, "n": 0, "why": "SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 140594022645760 and this is thread id 1405939035029"}, {"ts": "2026-10-01T21:12:16+00:00", "event": "error", "type": null, "n": 0, "why": "SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 140130031800320 and this is thread id 1401298427346"}], "models": {"by_model": [{"model": "mistral:codestral-latest", "requests": 1, "tokens": 10, "rate_limited": 0, "errors": 0, "role": ""}, {"model": "openrouter:nvidia/nemotron-3-super-120b-a12b:free", "requests": 1, "tokens": 29, "rate_limited": 0, "errors": 0, "role": "escritor rápido: piezas cortas"}, {"model": "openrouter:cohere/north-mini-code:free", "requests": 1, "tokens": 13, "rate_limited": 0, "errors": 0, "role": "red de seguridad: reintenta lo que el titular no pudo"}, {"model": "groq:qwen/qwen3.8-27b", "requests": 1, "tokens": 19, "rate_limited": 0, "errors": 0, "role": "extractor: lee titulares para el radar"}, {"model": "nvidia/nemotron-3-super-120b-a12b", "requests": 1, "tokens": 29, "rate_limited": 0, "errors": 0, "role": "revisor: aprueba o rechaza cada lote · clasificador: etiquetado en volumen · verificador: contrasta los datos antes de publicar"}, {"model": "nvidia/nemotron-3-ultra-550b-a55b", "requests": 1, "tokens": 29, "rate_limited": 0, "errors": 0, "role": "escritor: redacta las páginas"}, {"model": "openai/gpt-oss-20b", "requests": 1, "tokens": 78, "rate_limited": 0, "errors": 0, "role": ""}], "rate_limited_total": 0, "tokens_total": 207}, "agentes": {"por_agente": [{"otype": "faq_structure", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "indexing", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "ctr", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "citability", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "interlinking", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "striking_distance", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "content_decay", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}, {"otype": "content_gap", "lotes": 1, "paginas": 0, "requests": 0, "tokens": 0, "errors": 0, "fallidos": 0, "tok_por_pagina": 0}], "tokens_total": 0, "paginas_total": 0}, "queue": {"by_type": [{"type": "competitor_gap", "n": 5}, {"type": "schema", "n": 1}, {"type": "offpage", "n": 1}, {"type": "interlinking", "n": 1}, {"type": "broken_link", "n": 1}], "total": 9, "situations_by_lang": {"en": {"queued": 0, "done": 58, "total": 58, "pct": 100}, "??": {"queued": 0, "done": 18, "total": 18, "pct": 100}, "es": {"queued": 0, "done": 14, "total": 14, "pct": 100}, "fr": {"queued": 0, "done": 5, "total": 5, "pct": 100}, "de": {"queued": 0, "done": 2, "total": 2, "pct": 100}}, "situations_status": {"approved": 97, "dismissed": 48, "skipped": 16}, "markets": {"type": "content_gap", "title": "Guías por mercado", "unit": "escritas", "by_lang": {"en": {"queued": 0, "done": 58, "total": 58, "pct": 100}, "??": {"queued": 0, "done": 18, "total": 18, "pct": 100}, "es": {"queued": 0, "done": 14, "total": 14, "pct": 100}, "fr": {"queued": 0, "done": 5, "total": 5, "pct": 100}, "de": {"queued": 0, "done": 2, "total": 2, "pct": 100}}}}, "reloj": {"total_min": 52.6, "componiendo_min": 37.5, "revisando_min": 0.0, "improductivo_min": 15.1, "improductivo_pct": 28.7, "pases": 8, "paradas": {"h": 0.5, "por_motivo": {"residente_caido": 0.5}, "ticks": 48, "sin_medir": 0}}, "residente": {"ts": "2026-10-02T05:24:01+00:00", "pid": 1358614, "site": "langels", "estado": "reposo", "detalle": "cola accionable vacía y la detección no toca aún", "ciclo": 1, "ultimo": {"applied": 0, "pending_merge": 0, "pending_review": 0, "rejected": 0, "deferred": 0, "locked": null, "halted": null, "reloj": {"total_min": 0.4, "componiendo_min": 0.0, "revisando_min": 0.0, "improductivo_min": 0.4, "improductivo_pct": 97.2}, "min": 0.4}}};window.__BASE__="";</script>
+<script>window.__STATE__={"now": "2026-10-03T05:31:26+00:00", "site": "langels", "modo": "auto", "running": {"owner": "residente", "pid": 2547940, "started": "2026-10-03T05:18:00+00:00", "minutes": 13, "ciclo": 20}, "today": {"applied": 0, "by_type": {}, "quota": [], "techo": {"used": 0, "total": 30, "left": 30, "pct": 0}, "pendientes": {"lotes": 0, "paginas": 0}}, "last_run": {"ts": "2026-10-03T05:07:59+00:00", "applied": 0, "pending_merge": 0, "pending_review": 0, "deferred": 0, "rejected": 0, "prod_ok": null, "modo": "auto", "reloj": {"total_min": 2.5, "componiendo_min": 2.4, "revisando_min": 0.0, "improductivo_min": 0.2, "improductivo_pct": 6.2}}, "feed": [{"ts": "2026-10-02T09:14:19+00:00", "event": "error", "type": null, "n": 0, "why": "SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 140594022645760 and this is thread id 1405939370737"}, {"ts": "2026-10-02T03:13:42+00:00", "event": "error", "type": null, "n": 0, "why": "SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 140594022645760 and this is thread id 1405939035029"}, {"ts": "2026-10-01T21:12:16+00:00", "event": "error", "type": null, "n": 0, "why": "SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 140130031800320 and this is thread id 1401298427346"}], "models": {"by_model": [{"model": "nvidia/nemotron-3-ultra-550b-a55b", "requests": 32, "tokens": 41807, "rate_limited": 8, "errors": 11, "role": "escritor: redacta las páginas", "provider": "NIM", "image": false}, {"model": "nvidia/nemotron-3-super-120b-a12b", "requests": 25, "tokens": 14715, "rate_limited": 0, "errors": 0, "role": "revisor: aprueba o rechaza cada lote · clasificador: etiquetado en volumen · verificador: contrasta los datos antes de publicar", "provider": "NIM", "image": false}, {"model": "openai/gpt-oss-20b", "requests": 20, "tokens": 1560, "rate_limited": 0, "errors": 0, "role": "reserva del revisor", "provider": "NIM", "image": false}, {"model": "mistral:codestral-latest", "requests": 20, "tokens": 200, "rate_limited": 0, "errors": 0, "role": "reserva del revisor", "provider": "Mistral", "image": false}, {"model": "groq:qwen/qwen3.8-27b", "requests": 20, "tokens": 380, "rate_limited": 0, "errors": 0, "role": "extractor: lee titulares para el radar", "provider": "Groq", "image": false}, {"model": "kilo:nvidia/nemotron-3-ultra-550b-a55b:free", "requests": 19, "tokens": 41477, "rate_limited": 1, "errors": 4, "role": "otra puerta del escritor", "provider": "Kilo", "image": false}, {"model": "openrouter:cohere/north-mini-code:free", "requests": 17, "tokens": 94386, "rate_limited": 0, "errors": 1, "role": "red de seguridad: reintenta lo que el titular no pudo", "provider": "OpenRouter", "image": false}, {"model": "openrouter:nvidia/nemotron-3-super-120b-a12b:free", "requests": 8, "tokens": 203, "rate_limited": 1, "errors": 1, "role": "escritor rápido: piezas cortas", "provider": "OpenRouter", "image": false}, {"model": "groq:openai/gpt-oss-120b", "requests": 2, "tokens": 168, "rate_limited": 0, "errors": 0, "role": "enlazador: elige dónde va cada enlace interno", "provider": "Groq", "image": false}, {"model": "openrouter:nvidia/nemotron-3-ultra-550b-a55b:free", "requests": 1, "tokens": 3713, "rate_limited": 0, "errors": 0, "role": "otra puerta del escritor", "provider": "OpenRouter", "image": false}, {"model": "modelscope:Qwen/Qwen-Image", "requests": 1, "tokens": 0, "rate_limited": 0, "errors": 0, "role": "", "provider": "ModelScope", "image": true}], "rate_limited_total": 10, "tokens_total": 198609}, "agentes": {"por_agente": [{"otype": "content_gap", "lotes": 20, "paginas": 1, "requests": 53, "tokens": 195137, "errors": 11, "fallidos": 0, "tok_por_pagina": 195137}], "sin_trabajo": ["citability", "content_decay", "ctr", "faq_structure", "indexing", "interlinking", "striking_distance"], "tokens_total": 195137, "paginas_total": 1}, "queue": {"by_type": [{"type": "competitor_gap", "n": 5}, {"type": "striking_distance", "n": 1}, {"type": "schema", "n": 1}, {"type": "offpage", "n": 1}, {"type": "content_gap", "n": 1}, {"type": "broken_link", "n": 1}], "total": 10, "situations_by_lang": {"en": {"queued": 0, "done": 58, "total": 58, "pct": 100}, "??": {"queued": 1, "done": 19, "total": 20, "pct": 95}, "es": {"queued": 0, "done": 14, "total": 14, "pct": 100}, "fr": {"queued": 0, "done": 5, "total": 5, "pct": 100}, "de": {"queued": 0, "done": 2, "total": 2, "pct": 100}}, "situations_status": {"approved": 97, "dismissed": 55, "in_pr": 1, "new": 1, "skipped": 16}, "markets": {"type": "content_gap", "title": "Guías por mercado", "unit": "escritas", "by_lang": {"en": {"queued": 0, "done": 58, "total": 58, "pct": 100}, "??": {"queued": 1, "done": 19, "total": 20, "pct": 95}, "es": {"queued": 0, "done": 14, "total": 14, "pct": 100}, "fr": {"queued": 0, "done": 5, "total": 5, "pct": 100}, "de": {"queued": 0, "done": 2, "total": 2, "pct": 100}}}}, "reloj": {"total_min": 59.0, "componiendo_min": 53.9, "revisando_min": 0.8, "improductivo_min": 4.3, "improductivo_pct": 7.3, "pases": 20, "paradas": {"h": 0, "por_motivo": {}, "ticks": 48, "sin_medir": 0}}, "residente": {"ts": "2026-10-03T05:18:00+00:00", "pid": 2547940, "site": "langels", "estado": "produciendo", "detalle": "cola 1, presupuesto 30", "ciclo": 20, "ultimo": {"applied": 0, "pending_merge": 0, "pending_review": 0, "rejected": 0, "deferred": 0, "locked": null, "halted": null, "reloj": {"total_min": 2.5, "componiendo_min": 2.4, "revisando_min": 0.0, "improductivo_min": 0.2, "improductivo_pct": 6.2}, "min": 2.5}}};window.__BASE__="";</script>
 <script>
 const $=s=>document.querySelector(s);
 // 7918137 no se lee. 7,9 M sí.
@@ -232,30 +233,60 @@ const TIPO_CORTO={situation:'situaciones', indexing:'indexación',
   terminology:'terminología', hreflang:'idiomas', broken_link:'enlaces rotos',
   content_decay:'páginas en caída', geo:'respuestas IA',
   cannibalization:'canibalización', competitor_gap:'hueco competitivo',
-  content_gap:'páginas nuevas'};
+  content_gap:'páginas nuevas', fineprint_audit:'auditoría de excepciones',
+  news_hook:'caso real', news_post:'post de noticia', meta:'meta', ctr:'CTR',
+  voz:'voz', otros:'otros'};
 const pad=n=>String(n).padStart(2,'0');
 const hhmm=iso=>{const d=new Date(iso);return isNaN(d)?'--:--':pad(d.getHours())+':'+pad(d.getMinutes());};
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-const LABEL={applied:'aplicado',rejected:'rechazado',reverted:'REVERTIDO',
-  capped:'techo alcanzado',error:'error',locked:'saltado (lock)',deferred:'pospuesto',
-  pr_opened:'PR abierto'};
-const TONE={applied:'ok',rejected:'bad',reverted:'bad',error:'bad',capped:'warn',
-  locked:'warn',deferred:'warn',pr_opened:'ok'};
+const LABEL={applied:'publicado',pending_merge:'aprobado',rejected:'rechazado',
+  reverted:'REVERTIDO',capped:'techo alcanzado',error:'error',locked:'saltado (lock)',
+  deferred:'pospuesto',pr_opened:'PR abierto'};
+const TONE={applied:'ok',pending_merge:'ok',rejected:'bad',reverted:'bad',error:'bad',
+  capped:'warn',locked:'warn',deferred:'warn',pr_opened:'ok'};
+const n_=(n,uno,varios)=>`${n} ${n===1?uno:varios}`;
 // De dónde sondea esta página. Vacío en el sitio por defecto; `/langels` en
 // los demás. Lo fija el servidor al construir la página.
 const BASE=window.__BASE__||'';
 
-function quota(q){
-  if(!q.length) return '<div class="empty">sin cuotas configuradas</div>';
-  return q.map(x=>{
-    const cls = x.pct>=100?'full':x.pct>=85?'warn':'';
+function barra(pct,cls){
+  return `<div class="track"><div class="fill ${cls}" style="width:${Math.min(100,pct||0)}%"></div></div>`;
+}
+
+function quota(q,techo){
+  // El techo del día va primero: es el ÚNICO tope común. Las cuotas por tipo
+  // son reservas dentro de él, y el sobrante se reparte en la segunda vuelta.
+  let out='';
+  if(techo){
+    const cls = techo.pct>=100?'full':techo.pct>=85?'warn':'';
+    out+=`<div class="q"><div class="row"><span>techo del día</span>
+      <i>${techo.used}/${techo.total} · quedan ${techo.left}</i></div>${barra(techo.pct,cls)}</div>`;
+  }
+  if(!q.length) return out||'<div class="empty">sin cuotas configuradas</div>';
+  return out+q.map(x=>{
     // Siempre «usadas de total». El contador del pase imprimía el RESTO con
     // formato de consumo y hacía leer lo contrario de lo que ponía.
-    const left = x.left===null?'':` · quedan ${x.left}`;
-    return `<div class="q"><div class="row"><span>${esc(x.type)}</span>
-      <i>${x.used}/${x.total} usadas${left}</i></div>
-      <div class="track"><div class="fill ${cls}" style="width:${Math.min(100,x.pct)}%"></div></div></div>`;
+    let txt, cls='';
+    if(x.total===null){
+      // Sin reserva propia: no hay «de cuánto».
+      txt=`${x.used} · sin reserva propia`;
+    }else if(!x.extra){
+      txt=`${x.used}/${x.total}`+(x.left===null?'':` · quedan ${x.left}`);
+      cls = x.pct>=100 ? (x.modo==='reserva'?'':'warn') : x.pct>=85?'warn':'';
+    }else if(x.modo==='suscripcion'){
+      // El cupo es de la SUSCRIPCIÓN; el tipo sigue con la cadena gratuita.
+      txt=`${x.used} · cupo de suscripción ${x.total} agotado, +${x.extra} con gratuitos`;
+    }else if(x.modo==='duro'){
+      txt=`${x.used}/${x.total} · cupo agotado`;
+      cls='full';
+    }else{
+      // Una reserva cubierta no es un límite saltado: es la segunda vuelta
+      // usando lo que el techo tenía libre.
+      txt=`${x.used} · reserva de ${x.total} cubierta, +${x.extra} del sobrante`;
+    }
+    return `<div class="q"><div class="row"><span>${esc(TIPO_CORTO[x.type]||x.type)}</span>
+      <i>${txt}</i></div>${x.total===null?'':barra(x.pct,cls)}</div>`;
   }).join('');
 }
 
@@ -270,21 +301,50 @@ function lastRun(r){
     return `<p class="note">Último lote ${hhmm(r.ts)} · ${r.applied||0} escritas · ${est}</p>`;
   }
   const bad = r.prod_ok===false;
+  // Sin merges no hay producción que verificar: «sin verificar» parecía que
+  // la verificación había fallado o no había corrido.
   const est = bad ? '<span class="tag bad">producción rota</span>'
             : r.prod_ok===true ? '<span class="tag ok">producción verificada</span>'
-            : '<span class="tag">sin verificar</span>';
-  return `<p class="note">Último pase ${hhmm(r.ts)} · ${r.applied||0} aplicadas`
-       + `${r.rejected?` · ${r.rejected} rechazadas`:''} · ${est}</p>`;
+            : r.applied ? '<span class="tag">sin verificar</span>' : '';
+  // `applied` son sólo los merges; lo aprobado espera al merge. Con merge
+  // diferido casi todo pase es «0 publicadas», y eso solo parecía un pase
+  // en blanco.
+  const partes=[`${r.applied||0} publicadas`];
+  if(r.pending_merge) partes.push(`${r.pending_merge} aprobadas, esperan al merge`);
+  if(r.pending_review) partes.push(`${r.pending_review} esperan revisión humana`);
+  if(r.deferred) partes.push(`${r.deferred} aplazadas`);
+  if(r.rejected) partes.push(`${r.rejected} rechazadas`);
+  return `<p class="note">Último pase terminado ${hhmm(r.ts)} · ${partes.join(' · ')}`
+       + `${est?' · '+est:''}</p>`;
+}
+
+function pendientes(p){
+  if(!p||!p.lotes) return '';
+  return `<p class="note">En espera de publicarse: ${n_(p.paginas,'página','páginas')}`
+       + ` en ${n_(p.lotes,'lote aprobado','lotes aprobados')}.</p>`;
+}
+
+function reloj(r){
+  // El reloj de 24 h estaba en el estado y no se pintaba en ningún sitio.
+  if(!r||!r.pases) return '';
+  const h=m=>m>=90?(m/60).toFixed(1).replace('.',',')+' h':Math.round(m)+' min';
+  let t=`Reloj 24 h: ${n_(r.pases,'pase','pases')} · ${h(r.componiendo_min||0)} escribiendo`
+      + ` · ${h(r.revisando_min||0)} revisando · ${Math.round(r.improductivo_pct||0)} % improductivo`;
+  if(r.paradas&&r.paradas.h) t+=` · <b>${String(r.paradas.h).replace('.',',')} h parado con cola</b>`;
+  return `<p class="note">${t}</p>`;
 }
 
 function feed(items){
   if(!items.length) return '<div class="empty">sin actividad en las últimas 36 h</div>';
   return items.map(e=>{
-    const tone=TONE[e.event]||'', lab=LABEL[e.event]||e.event;
-    let body=`<span class="tag ${tone}">${esc(lab)}</span> ${esc(e.type||'')}`;
+    const tone=TONE[e.event]||'';
+    const lab=e.event==='capped'&&e.reason==='time' ? 'fin de reloj del pase'
+            : (LABEL[e.event]||e.event);
+    let body=`<span class="tag ${tone}">${esc(lab)}</span> ${esc(TIPO_CORTO[e.type]||e.type||'')}`;
     if(e.n) body+=` · ${e.n} cambio${e.n===1?'':'s'}`;
     if(e.sha) body+=` · <code>${esc(e.sha)}</code>`;
     if(e.event==='pr_opened'&&e.pr) body+=` · <a href="${esc(e.pr)}">ver PR</a>`;
+    else if(e.pr&&e.pr.includes('/pull/')) body+=` · <a href="${esc(e.pr)}">ver PR</a>`;
     let why='';
     if(e.layer) why=`capa ${esc(e.layer)}: ${esc(e.why||'')}`;
     else if(e.why) why=esc(e.why);
@@ -296,8 +356,11 @@ function feed(items){
 function render(s){
   const r=s.running;
   $('#dot').className='dot'+(r?' on':'');
+  const quien = !r ? '' : r.owner==='residente'
+    ? `residente${r.ciclo?` (ciclo ${r.ciclo})`:''}`
+    : r.owner==='autonomous' ? 'pase' : (r.owner||'pase');
   $('#live').textContent = r
-    ? `${r.owner||'pase'} trabajando · ${r.minutes??'?'} min`
+    ? `${quien} trabajando · ${r.minutes??'?'} min`
     : 'en reposo';
   $('#ago').textContent='actualizado '+hhmm(s.now);
 
@@ -305,10 +368,13 @@ function render(s){
   // «producción», que no decía ni qué se verificó ni cuándo; ahora eso vive en
   // la línea de estado del último pase, con su hora.
   // Por PR nada se «aplica»: se escribe y espera a una persona.
-  const hechas = s.modo==='pr' ? 'en PR hoy' : 'aplicadas hoy';
+  // Lo que cuenta el techo: aprobado por el guardián en 24 h, publicado ya o
+  // esperando al merge. «aplicadas hoy» hacía creer que estaban en producción.
+  const hechas = s.modo==='pr' ? 'en PR hoy' : 'aprobadas en 24 h';
   $('#today').innerHTML=`<div class="kpi"><b>${s.today.applied}</b><small>${hechas}</small></div>`
     + `<div class="kpi"><b>${s.queue.total}</b><small>en cola</small></div>`;
-  $('#quota').innerHTML=quota(s.today.quota)+lastRun(s.last_run);
+  $('#quota').innerHTML=quota(s.today.quota,s.today.techo)+lastRun(s.last_run)
+    + pendientes(s.today.pendientes)+reloj(s.reloj);
   $('#feed').innerHTML=feed(s.feed);
   $('#feedhint').textContent=s.feed.length?`últimas ${s.feed.length} · 36 h`:'';
 
@@ -321,7 +387,8 @@ function render(s){
   $('#langs').innerHTML=Object.keys(L).length
     ? Object.entries(L).map(([k,v])=>{
         const w=v.total?Math.round(100*v.done/v.total):0;
-        return `<div class="mk"><div class="row"><span class="code">${esc(k)}</span>
+        // «??» es una página cuyo idioma no se pudo leer: dicho en palabras.
+        return `<div class="mk"><div class="row"><span class="code">${k==='??'?'sin idioma':esc(k)}</span>
           <i>${v.done} de ${v.total} ${esc(M.unit)}</i></div>
           <div class="track"><div class="fill" style="width:${w}%"></div></div></div>`;
       }).join('')
@@ -334,9 +401,15 @@ function render(s){
   const m=s.models;
   $('#models').innerHTML=m.by_model.map(x=>{
     // «1 429» se leía como el número 1429. Ahora se dice en palabras.
-    const lim = x.rate_limited
-      ? ` <span class="tag warn">${x.rate_limited} limitada${x.rate_limited===1?'':'s'}</span>` : '';
-    const esImagen = x.model.includes('image') || x.model.startsWith('modelscope:');
+    const lim = (x.rate_limited
+      ? ` <span class="tag warn">${x.rate_limited} limitada${x.rate_limited===1?'':'s'}</span>` : '')
+      // `errors` incluye los 429; lo que queda son fallos de otro tipo (un
+      // modelo que no contesta nada: 46 llamadas, 0 tokens) y no se veían.
+      + ((x.errors||0)>(x.rate_limited||0)
+      ? ` <span class="tag bad">${x.errors-(x.rate_limited||0)} fallida${x.errors-(x.rate_limited||0)===1?'':'s'}</span>` : '');
+    // De imagen lo dice el estado (la lista de imagegen): por ModelScope van
+    // también el verificador y reservas de texto.
+    const esImagen = x.image ?? x.model.toLowerCase().includes('image');
     // La FUNCIÓN en su propia línea: un id de modelo no dice qué hace aquí,
     // y recordar que nemotron-super es el revisor no es trabajo para un
     // humano. Los de imagen no viven en `models:`, llevan la suya fija.
@@ -345,7 +418,11 @@ function render(s){
     // contabilidad. Se dice lo que es; no se le inventa un equivalente.
     const gasto = `${x.requests} llamada${x.requests===1?'':'s'} a la API`
       + (x.tokens ? ` · ${tok(x.tokens)} tokens` : (esImagen ? ' · imágenes, no tokens' : ''));
-    return `<div class="ag"><div class="row"><b>${esc(x.model.split('/').pop())}</b>${lim}</div>`
+    // El proveedor delante: el mismo modelo sale por NIM, Kilo y OpenRouter, y
+    // sólo con el id eran tres filas idénticas.
+    const nombre = x.model.replace(/^[a-z-]+:/,'').split('/').pop().replace(/:free$/,'');
+    const prov = x.provider ? `<span class="prov">${esc(x.provider)}</span> ` : '';
+    return `<div class="ag"><div class="row"><b>${prov}${esc(nombre)}</b>${lim}</div>`
       + (rol ? `<div class="rol">${esc(rol)}</div>` : '')
       + `<i>${gasto}</i></div>`;
   }).join('')||'<div class="empty">sin llamadas hoy</div>';
@@ -362,11 +439,13 @@ function render(s){
       + `</div><i>${a.paginas} pág · ${a.requests} llam · ${tok(a.tokens)} tok`
       + (a.tok_por_pagina?` · ${tok(a.tok_por_pagina)}/pág`:'')
       + `</i></div>`).join('')
-    || '<p class="empty">sin lotes hoy — se rellena con el próximo pase</p>';
+    + ((ag.sin_trabajo||[]).length
+       ? `<p class="note">Sin trabajo (cola vacía): ${ag.sin_trabajo.map(t=>esc(TIPO_CORTO[t]||t)).join(', ')}.</p>` : '')
+    || '<p class="empty">sin lotes en 24 h — se rellena con el próximo pase</p>';
 
   $('#rl').textContent = m.rate_limited_total
-    ? `${m.rate_limited_total} petición(es) rechazadas por cuota hoy. Si ves rechazos en cadena, empieza por aquí: cuando el proveedor aprieta, el síntoma parece culpa del guardián.`
-    : 'Sin limitación de cuota hoy.';
+    ? `${m.rate_limited_total} petición(es) rechazadas por cuota en 24 h. Si ves rechazos en cadena, empieza por aquí: cuando el proveedor aprieta, el síntoma parece culpa del guardián.`
+    : 'Sin limitación de cuota en 24 h.';
 }
 
 async function tick(){
