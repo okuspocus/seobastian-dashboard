@@ -213,6 +213,8 @@ a{color:inherit}
              340 px las columnas no separan y las cifras se pisan. Cada número
              lleva su unidad al lado. -->
         <div id="models"></div><p class="note" id="rl"></p></section>
+      <section class="card" id="opt-sec" aria-labelledby="h-op" hidden>
+        <h2 id="h-op">Modo optimizar</h2><div id="optimizar"></div></section>
       <section class="card" aria-labelledby="h-co">
         <h2 id="h-co">Cola por tipo</h2><table><tbody id="queue"></tbody></table></section>
     </aside>
@@ -226,7 +228,7 @@ a{color:inherit}
     </main>
   </div>
 </div>
-<script>window.__STATE__={"now": "2026-10-27T07:01:53+00:00", "site": "bolas", "modo": "pr", "running": null, "today": {"applied": 0, "by_type": {}, "quota": [{"type": "meta", "used": 0, "total": 2, "left": 2, "pct": 0}, {"type": "ctr", "used": 0, "total": 2, "left": 2, "pct": 0}, {"type": "interlinking", "used": 0, "total": 2, "left": 2, "pct": 0}, {"type": "citability", "used": 0, "total": 2, "left": 2, "pct": 0}, {"type": "faq_structure", "used": 0, "total": 2, "left": 2, "pct": 0}], "techo": null, "pendientes": null}, "last_run": {"ts": "2026-10-26T06:09:43+00:00", "applied": 0, "rejected": 0, "prod_ok": null, "pr": null, "modo": "pr"}, "feed": [], "models": {"by_model": [], "rate_limited_total": 0, "tokens_total": 0}, "agentes": {"por_agente": [], "sin_trabajo": [], "tokens_total": 0, "paginas_total": 0}, "queue": {"by_type": [{"type": "striking_distance", "n": 187}, {"type": "indexing", "n": 58}, {"type": "content_decay", "n": 14}, {"type": "cannibalization", "n": 12}, {"type": "content_gap", "n": 9}, {"type": "competitor_gap", "n": 8}, {"type": "interlinking", "n": 2}, {"type": "geo", "n": 2}, {"type": "toxic_backlink", "n": 1}, {"type": "schema", "n": 1}, {"type": "offpage", "n": 1}, {"type": "ctr", "n": 1}, {"type": "broken_link", "n": 1}], "total": 297, "situations_by_lang": {"??": {"queued": 8, "done": 0, "total": 8, "pct": 0}, "en": {"queued": 1, "done": 0, "total": 1, "pct": 0}}, "situations_status": {"dismissed": 16, "new": 9}, "markets": {"type": "content_gap", "title": "Guías por mercado", "unit": "escritas", "by_lang": {"??": {"queued": 8, "done": 0, "total": 8, "pct": 0}, "en": {"queued": 1, "done": 0, "total": 1, "pct": 0}}}}, "reloj": {"total_min": 0, "componiendo_min": 0, "revisando_min": 0, "improductivo_min": 0, "improductivo_pct": 0.0, "pases": 0, "paradas": null}, "residente": null, "aviso": null};window.__BASE__="";</script>
+<script>window.__STATE__={"now": "2026-10-28T07:01:54+00:00", "site": "bolas", "modo": "pr", "running": null, "today": {"applied": 0, "by_type": {}, "quota": [{"type": "meta", "used": 0, "total": 2, "left": 2, "pct": 0}, {"type": "ctr", "used": 0, "total": 2, "left": 2, "pct": 0}, {"type": "interlinking", "used": 0, "total": 2, "left": 2, "pct": 0}, {"type": "citability", "used": 0, "total": 2, "left": 2, "pct": 0}, {"type": "faq_structure", "used": 0, "total": 2, "left": 2, "pct": 0}], "techo": null, "pendientes": null}, "last_run": null, "feed": [], "models": {"by_model": [], "rate_limited_total": 0, "tokens_total": 0}, "agentes": {"por_agente": [], "sin_trabajo": [], "tokens_total": 0, "paginas_total": 0}, "queue": {"by_type": [{"type": "striking_distance", "n": 187}, {"type": "indexing", "n": 58}, {"type": "content_decay", "n": 14}, {"type": "cannibalization", "n": 12}, {"type": "content_gap", "n": 9}, {"type": "competitor_gap", "n": 8}, {"type": "interlinking", "n": 2}, {"type": "geo", "n": 2}, {"type": "toxic_backlink", "n": 1}, {"type": "schema", "n": 1}, {"type": "offpage", "n": 1}, {"type": "ctr", "n": 1}, {"type": "broken_link", "n": 1}], "total": 297, "situations_by_lang": {"??": {"queued": 8, "done": 0, "total": 8, "pct": 0}, "en": {"queued": 1, "done": 0, "total": 1, "pct": 0}}, "situations_status": {"dismissed": 16, "new": 9}, "markets": {"type": "content_gap", "title": "Guías por mercado", "unit": "escritas", "by_lang": {"??": {"queued": 8, "done": 0, "total": 8, "pct": 0}, "en": {"queued": 1, "done": 0, "total": 1, "pct": 0}}}}, "reloj": {"total_min": 0, "componiendo_min": 0, "revisando_min": 0, "improductivo_min": 0, "improductivo_pct": 0.0, "pases": 0, "paradas": null}, "residente": null, "aviso": null, "optimizar": null};window.__BASE__="";</script>
 <script>
 const $=s=>document.querySelector(s);
 // 7918137 no se lee. 7,9 M sí.
@@ -329,6 +331,32 @@ function pendientes(p){
        + ` en ${n_(p.lotes,'lote aprobado','lotes aprobados')}.</p>`;
 }
 
+function prs_(p){
+  if(!p) return ' (PR: sin medir)';
+  const x=[]; if(p.mergeados) x.push(p.mergeados+' mergeados');
+  if(p.abiertos) x.push(p.abiertos+' abiertos'); if(p.cerrados) x.push(p.cerrados+' cerrados');
+  return x.length?` (PR: ${x.join(', ')})`:'';
+}
+
+function optimizar(o){
+  // Modo optimizar: separa lo pendiente de verdad de lo aparcado a propósito.
+  const par=d=>Object.entries(d||{}).map(([t,n])=>`${esc(t)} ${n}`).join(' · ');
+  const lis=[];
+  lis.push(`Pendientes de trabajar ahora: ${o.accionables==null?'<b>sin medir</b>':'<b>'+o.accionables+'</b>'}`);
+  if(par(o.en_cola)) lis.push(`En cola de tipos del pase (retenidos o sin ejecutar): ${par(o.en_cola)}`);
+  if(o.aparcado_total) lis.push(`Aparcado a propósito (páginas nuevas): ${o.aparcado_total} — ${par(o.aparcado)}`);
+  if(par(o.sin_agente)) lis.push(`Sin agente en el pase: ${par(o.sin_agente)}`);
+  const h=Object.entries(o.hechas_7d||{}).map(([t,v])=>`${esc(t)} ${v.aplicadas} ✓${v.a_revision?' + '+v.a_revision+' a revisión'+prs_(v.prs):''} / ${v.rechazadas} ✗`).join(' · ');
+  lis.push(`Desde el ${esc(o.ventana_desde)} (aprobadas ✓, a revisión humana, rechazadas ✗): ${h||'nada'}`);
+  lis.push(`Esperan a una persona (PR): <b>${o.en_revision_total||0}</b>${o.en_revision_total?' — '+par(o.en_revision):''}`);
+  const pm=o.pendientes_merge;
+  lis.push(`Aprobadas esperando el merge: ${pm&&pm.lotes?`${n_(pm.paginas,'página','páginas')} en ${n_(pm.lotes,'lote','lotes')}`:'ninguna'}`);
+  const m=o.medicion||{};
+  lis.push(`Desde el ${esc(o.desde)}, esperan medición a 28 días: ${m.esperan||0} · medidas: ${m.medidas_28d||0}`
+    +(m.medidas_28d?` (${m.mejoran} mejoran, ${m.empeoran} empeoran)`:' — aún sin veredicto'));
+  return '<ul class="note" style="margin:0;padding-left:1.2em">'+lis.map(x=>`<li>${x}</li>`).join('')+'</ul>';
+}
+
 function reloj(r){
   // El reloj de 24 h estaba en el estado y no se pintaba en ningún sitio.
   if(!r||!r.pases) return '';
@@ -398,6 +426,8 @@ function render(s){
     + `<div class="kpi"><b>${s.queue.total}</b><small>en cola</small></div>`;
   $('#quota').innerHTML=quota(s.today.quota,s.today.techo)+lastRun(s.last_run)
     + pendientes(s.today.pendientes)+reloj(s.reloj);
+  $('#opt-sec').hidden=!s.optimizar;
+  if(s.optimizar) $('#optimizar').innerHTML=optimizar(s.optimizar);
   $('#feed').innerHTML=feed(s.feed);
   $('#feedhint').textContent=s.feed.length?`últimas ${s.feed.length} · 36 h`:'';
 
